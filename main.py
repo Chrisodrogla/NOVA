@@ -14,8 +14,8 @@ options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox")
 
 # Google Sheets setup
-SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'  # Google Sheet ID
-SHEET_NAME = 'Sheet1'  # Sheet name
+SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'  
+SHEET_NAME = 'Sheet1' 
 
 # Get Google Sheets credentials from environment variable
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
@@ -33,7 +33,7 @@ except HttpError as e:
     existing_data = []
 
 # Get the list of existing website links
-existing_websites = [row[6] for row in existing_data[1:]]  # Column 7 is the "Web_Link"
+existing_websites = [row[6] for row in existing_data[1:]]  
 
 # List of websites to scrape
 link_websites = [
@@ -55,12 +55,12 @@ data = []
 
 # Loop through the websites and collect data
 for website in link_websites:
-    if website not in existing_websites:  # Skip if the website already exists
+    if website not in existing_websites:  # this wll skip if the website already exists on the gsheet
         driver = webdriver.Chrome(options=options)
         driver.get(website)
         time.sleep(2)
 
-        # Extract information
+        # Xpaths
         address_name = driver.find_element("xpath", """//div[@style="display: contents;"]/section/div/h2""").get_attribute("innerText")
             
         price = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[2]/div/div/div[1]/div/div/div/div/div/div/div/div[1]/div[1]/div/div/span/div/span[1]""").get_attribute("innerText") 
@@ -86,19 +86,19 @@ for website in link_websites:
 
         driver.quit()
 
-# Convert the data to DataFrame
+# Convert the data to Df
 df = pd.DataFrame(data)
 
-# Append the new data to Google Sheets, avoiding duplicates
+# Append the new data Gsheet avoiding duplicates
 if not df.empty:
     # Convert DataFrame to list of lists for Google Sheets
     values = df.values.tolist()
 
-    # Append data to Google Sheets
+    
     try:
         service.spreadsheets().values().append(
             spreadsheetId=SHEET_ID,
-            range=SHEET_NAME,  # Ensure appending starts at the end
+            range=SHEET_NAME,  
             valueInputOption="RAW",
             body={"values": values},
         ).execute()
