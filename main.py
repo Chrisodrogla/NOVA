@@ -17,7 +17,7 @@ credentials_dict = os.getenv("GOOGLE_SHEETS_CREDENTIALS")  # Get credentials fro
 creds = Credentials.from_service_account_info(eval(credentials_dict))  # Parse as JSON
 
 client = gspread.authorize(creds)  # Authorize
-sheet = client.open("Your Google Sheet Name").worksheet("Sheet1")  # Change to your sheet name
+sheet = client.open("Airbnb-sample-scraper").worksheet("Sheet1")  # Change to your sheet name
 
 # Get existing website URLs to avoid duplicates
 existing_urls = sheet.col_values(3)  # Assuming 'Web_Link' is in the 3rd column
