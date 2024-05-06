@@ -24,8 +24,8 @@ existing_urls = sheet.col_values(3)  # Assuming 'Web_Link' is in the 3rd column
 
 # List of websites to scrape
 link_websites1 = [
-    'https://www.airbnb.com/rooms/618297070744530980?adults=1...',
-    'https://www.airbnb.com/rooms/28254684?adults=1...',
+['https://www.airbnb.com/rooms/618297070744530980?adults=1&category_tag=Tag%3A8188&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1393757704&check_in=2024-12-01&check_out=2024-12-06&source_impression_id=p3_1714964601_g0rZVSVpYhYqRXk1&previous_page_section_name=1000&federated_search_id=a7b05e53-37a9-4366-8067-dde27a88e972&currency=USD',
+ 'https://www.airbnb.com/rooms/28254684?adults=1&category_tag=Tag%3A8528&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1838474145&check_in=2024-05-10&check_out=2024-05-15&source_impression_id=p3_1714964602_hpdXE4TeZSCuxUvp&previous_page_section_name=1000&federated_search_id=a7b05e53-37a9-4366-8067-dde27a88e972&currency=USD'
 ]
 
 data = []
