@@ -1,35 +1,30 @@
 name: sample-exp-Nova-Airbnb
 
+
 on:
-  workflow_dispatch:  # Allows you to manually trigger the workflow
+  workflow_dispatch: # This allows manual triggering of the workflow
 
 jobs:
-  run_script:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+  run_python_script:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3  # Get the repository code
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'  # Use Python 3.9 or higher
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9' # You can specify a different Python version if needed
 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pandas selenium gspread google-auth google-auth-oauthlib google-auth-httplib2
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas selenium google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
-      - name: Set up Chrome WebDriver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip
-          wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
-          sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+    - name: Run Python Script
+      env:
+        GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }} # Your Google Sheets credentials
+      run: |
+        python main.py
 
-      - name: Run Script
-        env:
-          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}  # Secret with Google Sheets API key
-        run: |
-          python main.py  # Run your script
