@@ -4,6 +4,8 @@ import pandas as pd
 from selenium import webdriver
 from google.oauth2.service_account import Credentials
 import gspread
+import json
+
 
 # Set up Chrome WebDriver with custom download directory
 options = webdriver.ChromeOptions()
@@ -14,7 +16,7 @@ options.add_argument("--window-size=1920x1080")
 
 # Google Sheets setup
 credentials_dict = os.getenv("GOOGLE_SHEETS_CREDENTIALS")  # Get credentials from env
-creds = Credentials.from_service_account_info(eval(credentials_dict))  # Parse as JSON
+creds = Credentials.from_service_account_info(json.loads(credentials_dict))
 
 client = gspread.authorize(creds)  # Authorize
 sheet = client.open("Airbnb-sample-scraper").worksheet("Sheet1")  # Change to your sheet name
