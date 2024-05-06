@@ -1,0 +1,35 @@
+name: sample-exp-Nova-Airbnb
+
+on:
+  workflow_dispatch:  # Allows you to manually trigger the workflow
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Get the repository code
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Use Python 3.9 or higher
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas selenium gspread google-auth google-auth-oauthlib google-auth-httplib2
+
+      - name: Set up Chrome WebDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
+          sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+
+      - name: Run Script
+        env:
+          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}  # Secret with Google Sheets API key
+        run: |
+          python main.py  # Run your script
