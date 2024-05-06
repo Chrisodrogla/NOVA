@@ -4,6 +4,8 @@ from selenium import webdriver
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+import os
+import json
 
 # Set up Chrome WebDriver with custom options
 options = webdriver.ChromeOptions()
@@ -12,12 +14,10 @@ options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox")
 
 # Google Sheets setup
-SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8' # Add your Google Sheet ID here
-SHEET_NAME = 'Sheet1' # Change to your sheet name if needed
+SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'  # Google Sheet ID
+SHEET_NAME = 'Sheet1'  # Sheet name
 
-# Get Google Sheets credentials from the environment variable
-import os
-import json
+# Get Google Sheets credentials from environment variable
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
 credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CREDENTIALS))
 
@@ -32,8 +32,8 @@ except HttpError as e:
     print("Error fetching data from Google Sheets:", e)
     existing_data = []
 
-# Get the list of existing websites
-existing_websites = [row[6] for row in existing_data[1:]]  # Assuming column 7 contains the website links
+# Get the list of existing website links
+existing_websites = [row[6] for row in existing_data[1:]]  # Column 7 is the "Web_Link"
 
 # List of websites to scrape
 link_websites = [
@@ -45,7 +45,7 @@ data = []
 
 # Loop through the websites and collect data
 for website in link_websites:
-    if website not in existing_websites:  # Skip if the website already exists in Google Sheets
+    if website not in existing_websites:  # Skip if the website already exists
         driver = webdriver.Chrome(options=options)
         driver.get(website)
         time.sleep(2)
@@ -63,7 +63,7 @@ for website in link_websites:
         
         hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText")
     
-        # Add to data list
+        # Add to the data list
         data.append({
             "Address": address_name,
             "Price": price,
@@ -73,13 +73,13 @@ for website in link_websites:
             "Hosted By": hosted_by,
             "Web_Link": website,
         })
-        
+
         driver.quit()
 
-# Convert data to DataFrame
+# Convert the data to DataFrame
 df = pd.DataFrame(data)
 
-# Append the new data to Google Sheets
+# Append the new data to Google Sheets, avoiding duplicates
 if not df.empty:
     # Convert DataFrame to list of lists for Google Sheets
     values = df.values.tolist()
@@ -88,7 +88,7 @@ if not df.empty:
     try:
         service.spreadsheets().values().append(
             spreadsheetId=SHEET_ID,
-            range=SHEET_NAME,
+            range=SHEET_NAME,  # Ensure appending starts at the end
             valueInputOption="RAW",
             body={"values": values},
         ).execute()
