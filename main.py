@@ -378,7 +378,7 @@ for website in link_websites:
             "Web_Link": website,
         })
 
-        driver.quit()
+driver.quit()
 
 # Convert the data to Df
 df = pd.DataFrame(data)
