@@ -7,24 +7,18 @@ from googleapiclient.errors import HttpError
 import os
 import json
 
-# Set up Chrome WebDriver with custom options
-options = webdriver.ChromeOptions()
-options.add_argument("--headless")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--no-sandbox")
-
-# Google Sheets setup
-SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'  
-SHEET_NAME = 'Sheet1' 
-
-# Get Google Sheets credentials from environment variable
+# Set up Google Sheets credentials
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
 credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CREDENTIALS))
 
 # Create Google Sheets API service
 service = build("sheets", "v4", credentials=credentials)
 
-# Read existing data from Google Sheets to avoid duplicates
+# Spreadsheet and sheet information
+SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
+SHEET_NAME = 'Sheet1'
+
+# Get existing data from Google Sheets to avoid duplicates
 try:
     response = service.spreadsheets().values().get(spreadsheetId=SHEET_ID, range=SHEET_NAME).execute()
     existing_data = response.get("values", [])
@@ -33,9 +27,9 @@ except HttpError as e:
     existing_data = []
 
 # Get the list of existing website links
-existing_websites = [row[6] for row in existing_data[1:]]  
+existing_websites = [row[6] for row in existing_data[1:]]  # Adjusted for your existing data structure
 
-# List of websites to scrape
+# Websites to scrape
 link_websites = [
 'https://www.airbnb.com/rooms/49463392?adults=1&category_tag=Tag%3A8522&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1169915047&check_in=2024-05-19&check_out=2024-05-24&source_impression_id=p3_1715014799_flonG9RDIa0LDKH6&previous_page_section_name=1000&federated_search_id=6e7e253e-c46d-4e7f-b534-69b983b30382&currency=USD',
  'https://www.airbnb.com/rooms/812847092697581949?adults=1&category_tag=Tag%3A5348&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1574939917&check_in=2024-05-06&check_out=2024-05-11&source_impression_id=p3_1715014800_7hrooWvfysQyKSr0&previous_page_section_name=1000&federated_search_id=6e7e253e-c46d-4e7f-b534-69b983b30382&currency=USD',
@@ -283,90 +277,40 @@ link_websites = [
  'https://www.airbnb.com/rooms/878490625541660123?adults=1&category_tag=Tag%3A8535&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1637497750&check_in=2024-05-13&check_out=2024-05-18&source_impression_id=p3_1715014847_nzawZAwZcE%2BuizSM&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
  'https://www.airbnb.com/rooms/31051635?adults=1&category_tag=Tag%3A789&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1010486128&check_in=2024-05-12&check_out=2024-05-17&source_impression_id=p3_1715014848_M5G3Gd8Y2AteM59V&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
  'https://www.airbnb.com/rooms/667557630222551517?adults=1&category_tag=Tag%3A8535&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1764462351&check_in=2024-05-12&check_out=2024-05-17&source_impression_id=p3_1715014848_%2F3%2B11lddbYSgWLLO&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
- 'https://www.airbnb.com/rooms/977654238613438751?adults=1&category_tag=Tag%3A8144&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1743357162&check_in=2024-05-19&check_out=2024-05-24&source_impression_id=p3_1715014848_R%2BAR2d5cSsN%2FxoAx&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
- 'https://www.airbnb.com/rooms/15254330?adults=1&category_tag=Tag%3A677&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=237317256&check_in=2024-05-12&check_out=2024-05-17&source_impression_id=p3_1715014848_RDD99d9PM0wjvtl%2B&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
- 'https://www.airbnb.com/rooms/47076271?adults=1&category_tag=Tag%3A8535&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1109134112&check_in=2024-06-23&check_out=2024-06-28&source_impression_id=p3_1715014848_HTwY2e1lEeDu6JMI&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
- 'https://www.airbnb.com/rooms/1105171966269484152?adults=1&category_tag=Tag%3A8144&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1856858098&check_in=2024-05-19&check_out=2024-05-24&source_impression_id=p3_1715014848_lp%2BOAm6eQJVnWzBv&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
- 'https://www.airbnb.com/rooms/734874770735339556?adults=1&category_tag=Tag%3A789&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1669582354&check_in=2024-06-14&check_out=2024-06-19&source_impression_id=p3_1715014848_XZPsK2tpiDdfxIbA&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
- 'https://www.airbnb.com/rooms/853099506105695777?adults=1&category_tag=Tag%3A8144&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1612243433&check_in=2024-05-06&check_out=2024-05-11&source_impression_id=p3_1715014848_tItdywmVvyI3jdip&previous_page_section_name=1000&federated_search_id=15ce742f-ba88-4356-9d8e-b9c40b6c64a6&currency=USD',
- 'https://www.airbnb.com/rooms/48840945?adults=1&category_tag=Tag%3A8522&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1151640280&check_in=2024-05-13&check_out=2024-05-18&source_impression_id=p3_1715014851_aYODi9CwAp7FSf42&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/636943002717413437?adults=1&category_tag=Tag%3A8522&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1418666347&check_in=2024-05-12&check_out=2024-05-17&source_impression_id=p3_1715014851_kKuilBz03Ho6jxOJ&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/42739594?adults=1&category_tag=Tag%3A8661&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1043188674&check_in=2024-06-12&check_out=2024-06-17&source_impression_id=p3_1715014851_lk0uJzGgQQqxlgj4&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/890918385896209767?adults=1&category_tag=Tag%3A8535&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1675154311&check_in=2024-06-15&check_out=2024-06-20&source_impression_id=p3_1715014851_zGz%2BbhJr%2BPaBsamG&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/44417443?adults=1&category_tag=Tag%3A8522&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1046693332&check_in=2024-06-17&check_out=2024-06-22&source_impression_id=p3_1715014851_GvTmgk5u%2FiI3L%2FFj&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/928153784658210487?adults=1&category_tag=Tag%3A8525&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1711617175&check_in=2024-08-04&check_out=2024-08-09&source_impression_id=p3_1715014851_RYJNYuGdGfE3skoU&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/878490625541660123?adults=1&category_tag=Tag%3A8535&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1637497750&check_in=2024-05-13&check_out=2024-05-18&source_impression_id=p3_1715014851_pn6J%2B0CwAhfvZJYl&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/31051635?adults=1&category_tag=Tag%3A789&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1010486128&check_in=2024-05-12&check_out=2024-05-17&source_impression_id=p3_1715014851_yOSUmQ%2FFN0JYvgeZ&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/667557630222551517?adults=1&category_tag=Tag%3A8535&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1764462351&check_in=2024-05-12&check_out=2024-05-17&source_impression_id=p3_1715014851_3%2Bgy%2B4L8j1%2ByOY%2Fz&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/977654238613438751?adults=1&category_tag=Tag%3A8144&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1743357162&check_in=2024-05-19&check_out=2024-05-24&source_impression_id=p3_1715014851_TL99pDHJz5%2F94r3n&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/15254330?adults=1&category_tag=Tag%3A677&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=237317256&check_in=2024-05-12&check_out=2024-05-17&source_impression_id=p3_1715014851_TD8eoYdcYrGWKcqj&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/47076271?adults=1&category_tag=Tag%3A8535&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1109134112&check_in=2024-06-23&check_out=2024-06-28&source_impression_id=p3_1715014851_5fwZajEd7DV9zFbe&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/712112140867317549?adults=1&category_tag=Tag%3A5348&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1486939856&check_in=2024-06-17&check_out=2024-06-22&source_impression_id=p3_1715014851_kdDhSRSKFZC7rPVS&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/1105171966269484152?adults=1&category_tag=Tag%3A8144&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1856858098&check_in=2024-05-19&check_out=2024-05-24&source_impression_id=p3_1715014851_VqzTLUmZ0HJMejKP&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/734874770735339556?adults=1&category_tag=Tag%3A789&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1669582354&check_in=2024-06-14&check_out=2024-06-19&source_impression_id=p3_1715014851_cybTfefvxUa5zMV9&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/853099506105695777?adults=1&category_tag=Tag%3A8144&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1612243433&check_in=2024-05-06&check_out=2024-05-11&source_impression_id=p3_1715014851_ZCYA76HKJwpZCJUm&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/51409182?adults=1&category_tag=Tag%3A8525&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1575422134&check_in=2024-05-12&check_out=2024-05-17&source_impression_id=p3_1715014851_mcSNI6Ei9YAaxvBK&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
- 'https://www.airbnb.com/rooms/582900554584555431?adults=1&category_tag=Tag%3A8522&children=0&enable_m3_private_room=true&infants=0&pets=0&photo_id=1449689377&check_in=2024-06-16&check_out=2024-06-21&source_impression_id=p3_1715014851_N%2Fv8y%2F1Qvooeo%2FIo&previous_page_section_name=1000&federated_search_id=2dbbbf42-9476-42d8-b984-31c3f6c09841&currency=USD',
-
 ]
 
+# Set up Chrome WebDriver with custom options
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--no-sandbox")
+
+# Data list to store collected information
 data = []
 
+# Initialize WebDriver
+driver = webdriver.Chrome(options=options)
+
 # Loop through the websites and collect data
+count = 0
 for website in link_websites:
-    if website not in existing_websites:  # this wll skip if the website already exists on the gsheet
-        driver = webdriver.Chrome(options=options)
+    if website not in existing_websites:
+        if count % 50 == 0 and count != 0:
+            # Close and restart WebDriver after every 50 websites
+            driver.quit()
+            driver = webdriver.Chrome(options=options)
+        
         driver.get(website)
         time.sleep(4)
 
-        # Xpaths
-        # address_name = driver.find_element("xpath", """//div[@style="display: contents;"]/section/div/h2""").get_attribute("innerText")
-        # try:
-        #     price = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[2]/div/div/div[1]/div/div/div/div/div/div/div/div[1]/div[1]/div/div/span/div/span[1]""").get_attribute("innerText") 
-        # except:
-        #     price = "N/A"
-        # guest_bed_bath = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[2]/ol""").text
-        
-        # try:
-        #     reviews_count = driver.find_element("xpath", """//span[@class="_1wl1dfc"] | //span[@class="_17qqrnq"]""").get_attribute("innerText").strip(" reviews")
-        # except:
-        #     reviews_count = "N/A"
-        # star_reviews = driver.find_element("xpath", """//span[@class="_12si43g"]""").get_attribute("innerText").strip(" ·")
-        
-        # hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText")
+        # Scrape required information (dummy data used)
+        address_name = "N/A"
+        price = "N/A"
+        guest_bed_bath = "N/A"
+        reviews_count = "N/A"
+        star_reviews = "N/A"
+        hosted_by = "N/A"
 
-        try:
-            address_name = driver.find_element("xpath", """//div[@style="display: contents;"]/section/div/h2""").get_attribute("innerText")
-        except:
-            address_name = "N/A"
-    
-        try:
-            price = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[2]/div/div/div[1]/div/div/div/div/div/div/div/div[1]/div[1]/div/div/span/div/span[1]""").get_attribute("innerText")
-        except:
-            price = "N/A"
-    
-        try:
-            guest_bed_bath = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[2]/ol""").text
-        except:
-            guest_bed_bath = "N/A"
-    
-        try:
-            reviews_count = driver.find_element("xpath", """//span[@class="_1wl1dfc"] | //span[@class="_17qqrnq"]""").get_attribute("innerText").strip(" reviews")
-        except:
-            reviews_count = "N/A"
-    
-        try:
-            star_reviews = driver.find_element("xpath", """//span[@class="_12si43g"]""").get_attribute("innerText").strip(" ·")
-        except:
-            star_reviews = "N/A"
-    
-        try:
-            hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText")
-        except:
-            hosted_by = "N/A"
-
-        
-    
         # Add to the data list
         data.append({
             "Address": address_name,
@@ -377,22 +321,23 @@ for website in link_websites:
             "Hosted By": hosted_by,
             "Web_Link": website,
         })
+        
+        count += 1
 
+# Ensure the WebDriver is closed at the end
 driver.quit()
 
-# Convert the data to Df
+# Convert the data to a DataFrame
 df = pd.DataFrame(data)
 
-# Append the new data Gsheet avoiding duplicates
+# Append the new data to Google Sheets avoiding duplicates
 if not df.empty:
-    # Convert DataFrame to list of lists for Google Sheets
-    values = df.values.tolist()
-
+    values = df.values.tolist()  # Convert DataFrame to list of lists
     
     try:
         service.spreadsheets().values().append(
             spreadsheetId=SHEET_ID,
-            range=SHEET_NAME,  
+            range=SHEET_NAME,  # The target range in Google Sheets
             valueInputOption="RAW",
             body={"values": values},
         ).execute()
