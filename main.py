@@ -64,7 +64,7 @@ for website in link_websites:
         address_name = driver.find_element("xpath", """//div[@style="display: contents;"]/section/div/h2""").get_attribute("innerText")
         try:
             price = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[2]/div/div/div[1]/div/div/div/div/div/div/div/div[1]/div[1]/div/div/span/div/span[1]""").get_attribute("innerText") 
-        else:
+        except:
             price = N/A
         guest_bed_bath = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[2]/ol""").text
         
