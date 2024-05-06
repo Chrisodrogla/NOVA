@@ -86,14 +86,11 @@ if not df.empty:
 
     # Append data to Google Sheets
     try:
-        body = {
-        "values": values
-        }
-        service.spreadsheets().values().appendRow(
-        spreadsheetId=SHEET_ID,
-        range=SHEET_NAME + "!A1",  # Sheet name + "!A1" for appending to A1
-        valueInputOption="RAW",
-        body=body
+        service.spreadsheets().values().append(
+            spreadsheetId=SHEET_ID,
+            range=SHEET_NAME,  # Ensure appending starts at the end
+            valueInputOption="RAW",
+            body={"values": values},
         ).execute()
     except HttpError as e:
         print("Error appending data to Google Sheets:", e)
