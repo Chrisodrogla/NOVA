@@ -65,7 +65,7 @@ for website in link_websites:
         try:
             price = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[2]/div/div/div[1]/div/div/div/div/div/div/div/div[1]/div[1]/div/div/span/div/span[1]""").get_attribute("innerText") 
         except:
-            price = N/A
+            price = "N/A"
         guest_bed_bath = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[2]/ol""").text
         
         reviews_count = driver.find_element("xpath", """//span[@class="_1wl1dfc"] | //span[@class="_17qqrnq"]""").get_attribute("innerText").strip(" reviews")
