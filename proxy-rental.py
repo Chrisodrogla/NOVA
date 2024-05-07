@@ -35,21 +35,27 @@ time.sleep(20)
 proxy_links = []
 
 while True:
-    # Get all the desired links on the current page
+    
     links = driver.find_elements("xpath", """//a[@class="btn btn-outline-primary card-btn custom-nav-button mr-1"]""")
     for link in links:
         web = link.get_attribute("href")
         proxy_links.append(web)
 
     time.sleep(10)
-    # Check if there's a "Next" button on the page
+    
     next_buttons = driver.find_elements("xpath", """//span[@class="next"]""")
     if len(next_buttons) > 0:
-        # Click the first "Next" button
+      
         next_buttons[0].click()
     else:
+        
+        links = driver.find_elements("xpath", """//a[@class="btn btn-outline-primary card-btn custom-nav-button mr-1"]""")
+        for link in links:
+            web = link.get_attribute("href")
+            proxy_links.append(web)
         # No "Next" button, exit the loop
         break
+
 
 #############################################
 driver.quit()
