@@ -51,6 +51,8 @@ while True:
         # No "Next" button, exit the loop
         break
 
+#############################################
+driver.quit()
 # Name of the JSON file
 json_filename = "proxy-rental-link.json"
 
