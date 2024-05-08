@@ -29,4 +29,4 @@ jobs:
       env:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GSHEET_CRED_MATRIX_RBREEZE }} # Your Google Sheets credentials
       run: |
-        python matrix-rankbreeze.py
+        python matrix_rankbreeze.py
