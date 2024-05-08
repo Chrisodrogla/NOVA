@@ -33,8 +33,8 @@ service = build("sheets", "v4", credentials=credentials)
 eastern_tz = pytz.timezone("America/New_York")
 current_time = datetime.datetime.now(eastern_tz)
 
-username = "Marketing@novavacation.com"
-passw = "Novabookings@2024!"
+username = os.environ['D_USERNAME_SECRET']
+passw = os.environ['D_PASSWORD_SECRET']
 
 website = "https://app.rankbreeze.com/listings"
 
