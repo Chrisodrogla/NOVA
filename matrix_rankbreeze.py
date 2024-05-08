@@ -57,11 +57,16 @@ time.sleep(2)
 log.click()
 time.sleep(4)  # 20
 
-proxy_links = ['https://app.rankbreeze.com/rankings/71585',
-               'https://app.rankbreeze.com/rankings/71572',
-               'https://app.rankbreeze.com/rankings/71571',
-               'https://app.rankbreeze.com/rankings/71570',
-               'https://app.rankbreeze.com/rankings/67678', ]
+proxy_links = ["https://app.rankbreeze.com/rankings/70468",
+              "https://app.rankbreeze.com/rankings/70467",
+              "https://app.rankbreeze.com/rankings/70466",
+              "https://app.rankbreeze.com/rankings/70465",
+              "https://app.rankbreeze.com/rankings/70464",
+              "https://app.rankbreeze.com/rankings/70463",
+              "https://app.rankbreeze.com/rankings/70462",
+              "https://app.rankbreeze.com/rankings/70461",
+              "https://app.rankbreeze.com/rankings/70460",
+              "https://app.rankbreeze.com/rankings/70459", ]
 
 data = []
 overall_impressions = []
