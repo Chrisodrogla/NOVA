@@ -27,6 +27,6 @@ jobs:
 
     - name: Run Python Script
       env:
-        GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GSHEET_CRED_MATRIX_RBREEZE }} # Your Google Sheets credentials
+        GSHEET_CRED_MATRIX_RBREEZE: ${{ secrets.GSHEET_CRED_MATRIX_RBREEZE }} # Your Google Sheets credentials
       run: |
         python matrix-rankbreeze.py

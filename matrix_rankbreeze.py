@@ -11,8 +11,8 @@ SHEET_NAME = 'Data'
 SHEET_NAME2 = 'impressions'
 
 # Get Google Sheets credentials from environment variable
-GOOGLE_SHEETS_CREDENTIALS = os.getenv("GSHEET_CRED_MATRIX_RBREEZE")
-credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CREDENTIALS))
+GSHEET_CRED_MATRIX_RBREEZE = os.getenv("GSHEET_CRED_MATRIX_RBREEZE")
+credentials = Credentials.from_service_account_info(json.loads(GSHEET_CRED_MATRIX_RBREEZE))
 
 # Create Google Sheets API service
 service = build("sheets", "v4", credentials=credentials)
