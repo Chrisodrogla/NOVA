@@ -58,7 +58,7 @@ log.click()
 time.sleep(4)  # 20
 
 proxy_links = ["https://app.rankbreeze.com/rankings/71585",
-    "https://app.rankbreeze.com/rankings/71572",
+
     "https://app.rankbreeze.com/rankings/71571",
     "https://app.rankbreeze.com/rankings/71570",
     "https://app.rankbreeze.com/rankings/71569",
