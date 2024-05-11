@@ -23,6 +23,7 @@ data = [{'Link': 'https',
   'Star Reviews': '2',
   'Date Gathered': '2024-05-10',
   'Date Gathered Hours': '2024-05-10 17:41:52'}]  # Your data
+
 overall_impressions = [('December, 2023',
   '0',
   '1,835',
@@ -40,29 +41,17 @@ overall_impressions = [('December, 2023',
   '2024-05-10',
   '2024-05-10 17:41:52')]  # Your overall_impressions data
 
-
+# Retrieve insert queries
 insert_query1 = os.environ.get('INSERT_QUERY_1')
 insert_query2 = os.environ.get('INSERT_QUERY_2')
-
-# Define insert queries
 
 # Insert data into table1
 for item in data:
     cursor.execute(insert_query1, (item['Link'], item['Link Id'], item['Rental Name'], item['Star Reviews'], item['Reviews Count'], item['Date Gathered'], item['Date Gathered Hours']))
 
-
-
+# Insert data into table2
 for item in overall_impressions:
-    period = item[0]
-    impressions = item[1]
-    similar_listing = item[2]
-    link = item[3]
-    link_id = item[4]
-    rental_title = item[5]
-    date_data_gathered = item[6]
-    time_data_gathered = item[7]
-    cursor.execute(insert_query_overall, (period, impressions, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered))
-
+    cursor.execute(insert_query2, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
 # Commit changes
 conn.commit()
