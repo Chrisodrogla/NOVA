@@ -23,13 +23,16 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pandas selenium google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+        pip install pandas selenium pyodbc
 
     - name: Run Python Script
       env:
         GSHEET_CRED_MATRIX_RBREEZE: ${{ secrets.GSHEET_CRED_MATRIX_RBREEZE }} 
         D_USERNAME_SECRET: ${{ secrets.D_USERNAME_SECRET }}
         D_PASSWORD_SECRET: ${{ secrets.D_PASSWORD_SECRET }}
+        INSERT_QUERY_1: ${{ secrets.INSERT_QUERY_1 }}
+        INSERT_QUERY_2: ${{ secrets.INSERT_QUERY_2 }}
+        SECRET_CHRISTIANSQL_STRING: ${{ secrets.SECRET_CHRISTIANSQL_STRING }}
 
         
       run: |
