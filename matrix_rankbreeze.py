@@ -42,8 +42,8 @@ overall_impressions = [('December, 2023',
   '2024-05-10 17:41:52')]  # Your overall_impressions data
 
 # Retrieve insert queries
-insert_query1 = "INSERT INTO RB_RentalData (link, link_id, rental_title, guest_satisfaction, review_count, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?)"
-insert_query2 = "INSERT INTO RB_Impressions (period, impressions, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+insert_query1 = "INSERT INTO RbRentalData (link, link_id, rental_title, guest_satisfaction, review_count, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?)"
+insert_query2 = "INSERT INTO RbImpressions (period, impressions, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 
 
 # Insert data into table1
