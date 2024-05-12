@@ -148,7 +148,7 @@ overall_airbnb_occupancy = [(item[0], item[1].replace("%", "").replace(",","").s
 
 overall_avg_daily_rates = [(item[0], item[1].replace("$", "").replace(",","").strip(), item[2].replace("$", "").replace(",","").strip(), *item[3:]) for item in  overall_avg_daily_rates]
 
-overall_revenue = [(item[0], item[1].replace("$", "").replace(",","").strip(), *item[3:]) for item in overall_revenue] 
+overall_revenue = [(item[0], item[1].replace("$", "").replace(",","").strip(), *item[2:]) for item in overall_revenue] 
 
 connection_string = os.environ.get('SECRET_CHRISTIANSQL_STRING')
 
