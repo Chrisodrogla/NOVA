@@ -171,7 +171,7 @@ insert_query6 = "INSERT INTO RankLeadTime (period, lead_time, similar_listing, l
 
 insert_query7 = "INSERT INTO RankAirbnbOccupancy (period, airbnb_occupancy, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 
-insert_query8 = "INSERT INTO RankAvgDailyRate (period, airbnb_occupancy, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+insert_query8 = "INSERT INTO RankAvgDailyRate (period, avg_daily_rate, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 
 insert_query9 = "INSERT INTO RankRevenue (period, revenue, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
