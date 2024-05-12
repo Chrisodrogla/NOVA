@@ -36,4 +36,4 @@ jobs:
 
         
       run: |
-        python matrix_rankbreeze.py
+        python metrix_rankbreeze.py
