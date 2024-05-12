@@ -32,6 +32,13 @@ jobs:
         D_PASSWORD_SECRET: ${{ secrets.D_PASSWORD_SECRET }}
         INSERT_QUERY_1: ${{ secrets.INSERT_QUERY_1 }}
         INSERT_QUERY_2: ${{ secrets.INSERT_QUERY_2 }}
+        INSERT_QUERY_3: ${{ secrets.INSERT_QUERY_3 }}
+        INSERT_QUERY_4: ${{ secrets.INSERT_QUERY_4 }}
+        INSERT_QUERY_5: ${{ secrets.INSERT_QUERY_5 }}
+        INSERT_QUERY_6: ${{ secrets.INSERT_QUERY_6 }}
+        INSERT_QUERY_7: ${{ secrets.INSERT_QUERY_7 }}
+        INSERT_QUERY_8: ${{ secrets.INSERT_QUERY_8 }}
+        INSERT_QUERY_9: ${{ secrets.INSERT_QUERY_9 }}
         SECRET_CHRISTIANSQL_STRING: ${{ secrets.SECRET_CHRISTIANSQL_STRING }}
 
         
