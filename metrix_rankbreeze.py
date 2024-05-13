@@ -9,17 +9,11 @@ import pytz
 import pandas as pd
 import json
 
-
-
-
-
-
 eastern_tz = pytz.timezone("America/New_York")
 current_time = datetime.datetime.now(eastern_tz)
 
 username = os.environ['D_USERNAME_SECRET']
 passw = os.environ['D_PASSWORD_SECRET']
-
 website = "https://app.rankbreeze.com/listings"
 
 # Set up Chrome WebDriver
@@ -46,8 +40,7 @@ proxy_links = [
     "https://app.rankbreeze.com/rankings/70460",
     "https://app.rankbreeze.com/rankings/70459",
     "https://app.rankbreeze.com/rankings/70458",
-
-     ]
+              ]
 
 data = []
 overall_impressions = []
@@ -121,11 +114,7 @@ for website in proxy_links:
     overall_airbnb_occupancy.extend(extract_table_data(airbnb_occupancy, 3))
     overall_avg_daily_rates.extend(extract_table_data(avg_daily_rates, 3))
     overall_revenue.extend(extract_table_data(revenue, 2))
-
-
    
-    
-    
     data.append({
         "Link": link,
         "Link Id": link_Id,
@@ -137,8 +126,6 @@ for website in proxy_links:
     })
 
 # driver.quit()
-
-
 
 overall_impressions = [(item[0], item[1].replace("impressions", "").replace(",","").strip(), item[2].replace("impressions", "").replace(",", "").strip(), *item[3:]) for item in overall_impressions]
 
@@ -157,10 +144,6 @@ overall_avg_daily_rates = [(item[0], item[1].replace("$", "").replace(",","").st
 overall_revenue = [(item[0], item[1].replace("$", "").replace(",","").strip(), *item[2:]) for item in overall_revenue] 
 
 connection_string = os.environ.get('SECRET_CHRISTIANSQL_STRING')
-
-# Establish on OUR SQL Srver connection
-conn = pyodbc.connect(connection_string)
-cursor = conn.cursor()
 
 # Retrieve insert queries
 insert_query1 = os.environ.get("INSERT_QUERY_1")
@@ -204,6 +187,13 @@ insert_query9 = os.environ.get("INSERT_QUERY_9")
 #         cursor.execute(query, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], *item[7:]))
 
 
+
+
+start_time = time.time()
+# Establish on OUR SQL Srver connection
+conn = pyodbc.connect(connection_string)
+cursor = conn.cursor()
+
 # Insert data into table2
 for item in overall_impressions:
     cursor.execute(insert_query2, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
@@ -228,10 +218,22 @@ for item in overall_avg_daily_rates:
 
 for item in overall_revenue:
     cursor.execute(insert_query9, (item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
-print("Done Running to Workflow")
+
 
 # Commit changes
 conn.commit()
 
 # Close connection
 conn.close()
+
+# Record the end time
+end_time = time.time()
+
+# Calculate the elapsed time
+elapsed_time = end_time - start_time
+minutes = int(elapsed_time // 60)
+seconds = int(elapsed_time % 60)
+
+# Print the elapsed time
+print(f"Task completed in {minutes} minutes and {seconds} seconds")
+print("Done Running to Workflow")
