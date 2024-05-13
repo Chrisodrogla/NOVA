@@ -39,7 +39,7 @@ driver.find_element("xpath", """(//div[@class="form-group"]/input)[2]""").send_k
 log = driver.find_element("xpath", """(//div[@class="form-group"]/input)[3]""")
 time.sleep(2)
 log.click()
-time.sleep(4)  # 20
+time.sleep(3)  # 20
 
 proxy_links = ["https://app.rankbreeze.com/rankings/71585",
 #     "https://app.rankbreeze.com/rankings/71572",
@@ -113,11 +113,11 @@ overall_revenue = []
 
 for website in proxy_links:
     driver.get(website)
-    time.sleep(4)
+    time.sleep(2)
 
     driver.get(website)
 
-    time.sleep(3)
+    time.sleep(2)
 
     link = website
 
@@ -190,22 +190,33 @@ for website in proxy_links:
 
 driver.quit()
 
+def clean_data(data_list, *replace_chars):
+    return [(item[0], *(value.replace(*replace_chars).replace(",", "").strip() for value in item[1:])) for item in data_list]
 
-overall_impressions = [(item[0], item[1].replace("impressions", "").replace(",","").strip(), item[2].replace("impressions", "").replace(",", "").strip(), *item[3:]) for item in overall_impressions]
+overall_impressions = clean_data(overall_impressions, "impressions")
+overall_click_throughs = clean_data(overall_click_throughs, "%")
+overall_listing_views = clean_data(overall_listing_views, "views")
+overall_conversion_rate = clean_data(overall_conversion_rate, "%")
+overall_lead_times = clean_data(overall_lead_times, "days")
+overall_airbnb_occupancy = clean_data(overall_airbnb_occupancy, "%")
+overall_avg_daily_rates = clean_data(overall_avg_daily_rates, "$")
+overall_revenue = [(item[0], *(value.replace("$", "").replace(",", "").strip() for value in item[1:])) for item in overall_revenue]
 
-overall_click_throughs = [(item[0], item[1].replace("%", "").strip(), item[2].replace("%", "").strip(), *item[3:]) for item in overall_conversion_rate]
+# overall_impressions = [(item[0], item[1].replace("impressions", "").replace(",","").strip(), item[2].replace("impressions", "").replace(",", "").strip(), *item[3:]) for item in overall_impressions]
 
-overall_listing_views = [(item[0], item[1].replace("views", "").replace(",","").strip(), item[2].replace("views", "").replace(",","").strip(), *item[3:]) for item in overall_listing_views]
+# overall_click_throughs = [(item[0], item[1].replace("%", "").strip(), item[2].replace("%", "").strip(), *item[3:]) for item in overall_conversion_rate]
 
-overall_conversion_rate = [(item[0], item[1].replace("%", "").strip(), item[2].replace("%", "").strip(), *item[3:]) for item in overall_conversion_rate]
+# overall_listing_views = [(item[0], item[1].replace("views", "").replace(",","").strip(), item[2].replace("views", "").replace(",","").strip(), *item[3:]) for item in overall_listing_views]
 
-overall_lead_times = [(item[0], item[1].replace("days", "").replace(",","").strip(), item[2].replace("days", "").replace(",","").strip(), *item[3:]) for item in overall_lead_times]
+# overall_conversion_rate = [(item[0], item[1].replace("%", "").strip(), item[2].replace("%", "").strip(), *item[3:]) for item in overall_conversion_rate]
 
-overall_airbnb_occupancy = [(item[0], item[1].replace("%", "").replace(",","").strip(), item[2].replace("%", "").replace(",","").strip(), *item[3:]) for item in overall_airbnb_occupancy]
+# overall_lead_times = [(item[0], item[1].replace("days", "").replace(",","").strip(), item[2].replace("days", "").replace(",","").strip(), *item[3:]) for item in overall_lead_times]
 
-overall_avg_daily_rates = [(item[0], item[1].replace("$", "").replace(",","").strip(), item[2].replace("$", "").replace(",","").strip(), *item[3:]) for item in  overall_avg_daily_rates]
+# overall_airbnb_occupancy = [(item[0], item[1].replace("%", "").replace(",","").strip(), item[2].replace("%", "").replace(",","").strip(), *item[3:]) for item in overall_airbnb_occupancy]
 
-overall_revenue = [(item[0], item[1].replace("$", "").replace(",","").strip(), *item[2:]) for item in overall_revenue] 
+# overall_avg_daily_rates = [(item[0], item[1].replace("$", "").replace(",","").strip(), item[2].replace("$", "").replace(",","").strip(), *item[3:]) for item in  overall_avg_daily_rates]
+
+# overall_revenue = [(item[0], item[1].replace("$", "").replace(",","").strip(), *item[2:]) for item in overall_revenue] 
 
 connection_string = os.environ.get('SECRET_CHRISTIANSQL_STRING')
 
@@ -256,30 +267,48 @@ insert_query9 = "INSERT INTO RankRevenue (period, revenue, link, link_id, rental
 for item in data:
     cursor.execute(insert_query1, (item['Link'], item['Link Id'], item['Rental Name'], item['Star Reviews'], item['Reviews Count'], item['Date Gathered'], item['Date Gathered Hours']))
 
-# Insert data into table2
-for item in overall_impressions:
-    cursor.execute(insert_query2, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+# Combine all data and queries into one list
+data_and_queries = [
+    (overall_impressions, insert_query2),
+    (overall_click_throughs, insert_query3),
+    (overall_listing_views, insert_query4),
+    (overall_conversion_rate, insert_query5),
+    (overall_lead_times, insert_query6),
+    (overall_airbnb_occupancy, insert_query7),
+    (overall_avg_daily_rates, insert_query8),
+    (overall_revenue, insert_query9)
+]
 
-for item in overall_click_throughs:
-    cursor.execute(insert_query3, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+# Execute all queries in a single loop
+for data, query in data_and_queries:
+    for item in data:
+        cursor.execute(query, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], *item[7:]))
 
-for item in overall_listing_views:
-    cursor.execute(insert_query4, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-for item in overall_conversion_rate:
-    cursor.execute(insert_query5, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+# # Insert data into table2
+# for item in overall_impressions:
+#     cursor.execute(insert_query2, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-for item in overall_lead_times:
-    cursor.execute(insert_query6, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+# for item in overall_click_throughs:
+#     cursor.execute(insert_query3, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-for item in overall_airbnb_occupancy:
-    cursor.execute(insert_query7, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+# for item in overall_listing_views:
+#     cursor.execute(insert_query4, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-for item in overall_avg_daily_rates:
-    cursor.execute(insert_query8, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+# for item in overall_conversion_rate:
+#     cursor.execute(insert_query5, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-for item in overall_revenue:
-    cursor.execute(insert_query9, (item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
+# for item in overall_lead_times:
+#     cursor.execute(insert_query6, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+
+# for item in overall_airbnb_occupancy:
+#     cursor.execute(insert_query7, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+
+# for item in overall_avg_daily_rates:
+#     cursor.execute(insert_query8, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+
+# for item in overall_revenue:
+#     cursor.execute(insert_query9, (item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
 print("Done Running to Workflow")
 
 # # Commit changes
