@@ -41,7 +41,7 @@ time.sleep(2)
 log.click()
 time.sleep(3)  # 20
 
-proxy_links = ["
+proxy_links = [
     "https://app.rankbreeze.com/rankings/70461",
     "https://app.rankbreeze.com/rankings/70460",
     "https://app.rankbreeze.com/rankings/70459",
