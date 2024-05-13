@@ -42,8 +42,8 @@ log.click()
 time.sleep(4)  # 20
 
 proxy_links = [
-               "https://app.rankbreeze.com/rankings/71571",
-               "https://app.rankbreeze.com/rankings/71570",
+               "https://app.rankbreeze.com/rankings/71568",
+
                ]
 
 data = []
@@ -206,9 +206,10 @@ for item in overall_avg_daily_rates:
 
 for item in overall_revenue:
     cursor.execute(insert_query9, (item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
+print("Done Running to Workflow")
 
-# Commit changes
-conn.commit()
+# # Commit changes
+# conn.commit()
 
-# Close connection
-conn.close()
+# # Close connection
+# conn.close()
