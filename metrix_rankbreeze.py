@@ -194,7 +194,11 @@ start_time = time.time()
 conn = pyodbc.connect(connection_string)
 cursor = conn.cursor()
 
-# Insert data into table2
+# Insert data into table1
+for item in data:
+    cursor.execute(insert_query1, (item['Link'], item['Link Id'], item['Rental Name'], item['Star Reviews'], item['Reviews Count'], item['Date Gathered'], item['Date Gathered Hours']))
+
+# Insert data into table2 and etc
 for item in overall_impressions:
     cursor.execute(insert_query2, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
@@ -220,10 +224,10 @@ for item in overall_revenue:
     cursor.execute(insert_query9, (item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
 
 
-# Commit changes
+# to commit changes
 conn.commit()
 
-# Close connection
+# to close connection
 conn.close()
 
 # Record the end time
@@ -235,5 +239,5 @@ minutes = int(elapsed_time // 60)
 seconds = int(elapsed_time % 60)
 
 # Print the elapsed time
-print(f"Task completed in {minutes} minutes and {seconds} seconds")
+print(f"Time took to transfer DataTables into SQL_DB is {minutes} minutes and {seconds} seconds")
 print("Done Running to Workflow")
