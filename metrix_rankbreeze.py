@@ -188,7 +188,7 @@ for website in proxy_links:
         "Date Gathered Hours": date_hours_str,
     })
 
-driver.quit()
+# driver.quit()
 
 def clean_data(data_list, *replace_chars):
     return [(item[0], *(value.replace(*replace_chars).replace(",", "").strip() for value in item[1:])) for item in data_list]
