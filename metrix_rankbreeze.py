@@ -182,52 +182,52 @@ insert_query8 = os.environ.get("INSERT_QUERY_8")
 insert_query9 = os.environ.get("INSERT_QUERY_9")
 
 
-# Insert data into table1
-for item in data:
-    cursor.execute(insert_query1, (item['Link'], item['Link Id'], item['Rental Name'], item['Star Reviews'], item['Reviews Count'], item['Date Gathered'], item['Date Gathered Hours']))
+# # Insert data into table1
+# for item in data:
+#     cursor.execute(insert_query1, (item['Link'], item['Link Id'], item['Rental Name'], item['Star Reviews'], item['Reviews Count'], item['Date Gathered'], item['Date Gathered Hours']))
 
-# Combine all data and queries into one list
-data_and_queries = [
-    (overall_impressions, insert_query2),
-    (overall_click_throughs, insert_query3),
-    (overall_listing_views, insert_query4),
-    (overall_conversion_rate, insert_query5),
-    (overall_lead_times, insert_query6),
-    (overall_airbnb_occupancy, insert_query7),
-    (overall_avg_daily_rates, insert_query8),
-    (overall_revenue, insert_query9)
-]
+# # Combine all data and queries into one list
+# data_and_queries = [
+#     (overall_impressions, insert_query2),
+#     (overall_click_throughs, insert_query3),
+#     (overall_listing_views, insert_query4),
+#     (overall_conversion_rate, insert_query5),
+#     (overall_lead_times, insert_query6),
+#     (overall_airbnb_occupancy, insert_query7),
+#     (overall_avg_daily_rates, insert_query8),
+#     (overall_revenue, insert_query9)
+# ]
 
-# Execute all queries in a single loop
-for data, query in data_and_queries:
-    for item in data:
-        cursor.execute(query, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], *item[7:]))
+# # Execute all queries in a single loop
+# for data, query in data_and_queries:
+#     for item in data:
+#         cursor.execute(query, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], *item[7:]))
 
 
-# # Insert data into table2
-# for item in overall_impressions:
-#     cursor.execute(insert_query2, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+# Insert data into table2
+for item in overall_impressions:
+    cursor.execute(insert_query2, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-# for item in overall_click_throughs:
-#     cursor.execute(insert_query3, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+for item in overall_click_throughs:
+    cursor.execute(insert_query3, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-# for item in overall_listing_views:
-#     cursor.execute(insert_query4, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+for item in overall_listing_views:
+    cursor.execute(insert_query4, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-# for item in overall_conversion_rate:
-#     cursor.execute(insert_query5, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+for item in overall_conversion_rate:
+    cursor.execute(insert_query5, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-# for item in overall_lead_times:
-#     cursor.execute(insert_query6, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+for item in overall_lead_times:
+    cursor.execute(insert_query6, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-# for item in overall_airbnb_occupancy:
-#     cursor.execute(insert_query7, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+for item in overall_airbnb_occupancy:
+    cursor.execute(insert_query7, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-# for item in overall_avg_daily_rates:
-#     cursor.execute(insert_query8, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
+for item in overall_avg_daily_rates:
+    cursor.execute(insert_query8, (item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]))
 
-# for item in overall_revenue:
-#     cursor.execute(insert_query9, (item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
+for item in overall_revenue:
+    cursor.execute(insert_query9, (item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
 print("Done Running to Workflow")
 
 # Commit changes
