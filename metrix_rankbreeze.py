@@ -258,43 +258,24 @@ connection_string = os.environ.get('SECRET_CHRISTIANSQL_STRING')
 conn = pyodbc.connect(connection_string)
 cursor = conn.cursor()
 
-# Retrieve insert queries
-# insert_query1 = os.environ.get("INSERT_QUERY_1")
+Retrieve insert queries
+insert_query1 = os.environ.get("INSERT_QUERY_1")
 
-# insert_query2 = os.environ.get("INSERT_QUERY_2")
+insert_query2 = os.environ.get("INSERT_QUERY_2")
 
-# insert_query3 = os.environ.get("INSERT_QUERY_3")
+insert_query3 = os.environ.get("INSERT_QUERY_3")
 
-# insert_query4 = os.environ.get("INSERT_QUERY_4")
+insert_query4 = os.environ.get("INSERT_QUERY_4")
 
-# insert_query5 = os.environ.get("INSERT_QUERY_5")
+insert_query5 = os.environ.get("INSERT_QUERY_5")
 
-# insert_query6 = os.environ.get("INSERT_QUERY_6")
+insert_query6 = os.environ.get("INSERT_QUERY_6")
 
-# insert_query7 = os.environ.get("INSERT_QUERY_7")
+insert_query7 = os.environ.get("INSERT_QUERY_7")
 
-# insert_query8 = os.environ.get("INSERT_QUERY_8")
+insert_query8 = os.environ.get("INSERT_QUERY_8")
 
-# insert_query9 = os.environ.get("INSERT_QUERY_9")
-
-insert_query1 = "INSERT INTO RankReview (link, link_id, rental_title, guest_satisfaction, review_count, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?)"
-
-insert_query2 = "INSERT INTO RankImpression (period, impressions, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-
-insert_query3 = "INSERT INTO RankClick (period, click_trough, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-
-insert_query4 = "INSERT INTO RankListingView (period, listing_view, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-
-insert_query5 = "INSERT INTO RankConversionRate (period, conversion, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-
-insert_query6 = "INSERT INTO RankLeadTime (period, lead_time, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-
-insert_query7 = "INSERT INTO RankAirbnbOccupancy (period, airbnb_occupancy, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-
-insert_query8 = "INSERT INTO RankAvgDailyRate (period, avg_daily_rate, similar_listing, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-
-insert_query9 = "INSERT INTO RankRevenue (period, revenue, link, link_id, rental_title, date_data_gathered, time_data_gathered) VALUES (?, ?, ?, ?, ?, ?, ?)"
-
+insert_query9 = os.environ.get("INSERT_QUERY_9")
 
 
 # Insert data into table1
@@ -345,8 +326,8 @@ for data, query in data_and_queries:
 #     cursor.execute(insert_query9, (item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
 print("Done Running to Workflow")
 
-# # Commit changes
-# conn.commit()
+# Commit changes
+conn.commit()
 
-# # Close connection
-# conn.close()
+# Close connection
+conn.close()
