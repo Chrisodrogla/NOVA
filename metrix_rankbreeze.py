@@ -254,11 +254,11 @@ overall_revenue = [(item[0], item[1].replace("$", "").replace(",","").strip(), *
 
 connection_string = os.environ.get('SECRET_CHRISTIANSQL_STRING')
 
-# Establish connection
+# Establish on OUR SQL Srver connection
 conn = pyodbc.connect(connection_string)
 cursor = conn.cursor()
 
-Retrieve insert queries
+# Retrieve insert queries
 insert_query1 = os.environ.get("INSERT_QUERY_1")
 
 insert_query2 = os.environ.get("INSERT_QUERY_2")
