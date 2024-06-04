@@ -4,11 +4,12 @@ import datetime
 from selenium import webdriver
 import shutil
 import json
+import logging
 start_time = time.time()
 username = os.environ['D_USERNAME_SECRET']
 passw = os.environ['D_PASSWORD_SECRET']
 
-website = "https://app.rankbreeze.com/listings"
+website = "https://app.rankbreeze.com/listings?page=13"
 
 # Set up Chrome WebDriver
 options = webdriver.ChromeOptions()
@@ -124,10 +125,19 @@ def data_to_json(unique_data):
 unique_data = ranklistingcheck()
 data_to_json(unique_data)
 
-print(airbnb_data)
-end_time = time.time()
+
+
+# Configure logging
+logging.basicConfig(filename='rankbreeze_data.log', level=logging.INFO)
+
+# ... rest of your code ...
+
+unique_data = ranklistingcheck()
+data_to_json(unique_data)
+
+logging.info(f"Final Data: {final_data}")
 
 elapsed_time = end_time - start_time
 minutes = int(elapsed_time // 60)
 seconds = int(elapsed_time % 60)
-print(f"Time takes {minutes} minutes and {seconds} seconds")
+print(f"Time taken: {minutes} minutes and {seconds} seconds")
