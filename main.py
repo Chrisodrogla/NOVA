@@ -120,7 +120,7 @@ def data_to_json(unique_data):
 unique_data = ranklistingcheck()
 data_to_json(unique_data)
 
-print(airbnb_data)
+print(data)
 end_time = time.time()
 
 elapsed_time = end_time - start_time
