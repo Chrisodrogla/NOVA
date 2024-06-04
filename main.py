@@ -56,7 +56,7 @@ def ranklistingcheck():
             address2 = address_text.replace(' - ', '--').replace(' ', '-')
             addresses.append(address2)
 
-        time.sleep(1)
+        time.sleep(5)
         # Check if there's a "Next" button on the page
         next_buttons = driver.find_elements("xpath", """//span[@class="next"]""")
         if len(next_buttons) > 0:
