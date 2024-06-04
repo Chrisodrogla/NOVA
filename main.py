@@ -126,6 +126,7 @@ def data_to_json(unique_data):
 
 
     print(airbnb_data)
+    print(final_data)
 
 
 
