@@ -82,16 +82,16 @@ with initialize_driver() as driver:
                     addresses.append(address2)
                 break
 
-    data = []
-    for i in range(min(len(proxy_links), len(addresses))):
-        data.append({
-            "proxy_link": proxy_links[i],
-            "address": addresses[i]
-        })
-
-    unique_values = list(set(tuple(item.items()) for item in data))
-    unique_data = [dict(item) for item in unique_values]
-    return unique_data
+        data = []
+        for i in range(min(len(proxy_links), len(addresses))):
+            data.append({
+                "proxy_link": proxy_links[i],
+                "address": addresses[i]
+            })
+    
+        unique_values = list(set(tuple(item.items()) for item in data))
+        unique_data = [dict(item) for item in unique_values]
+        return unique_data
 
 def data_to_json(unique_data):
     rankbreeze_Id = []
