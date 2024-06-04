@@ -16,24 +16,25 @@ start_time = time.time()
 username = os.environ['D_USERNAME_SECRET']
 passw = os.environ['D_PASSWORD_SECRET']
 
-website = f"https://app.rankbreeze.com/listings?page=13"
+website = "https://app.rankbreeze.com/listings?page=13"
 
-def initialize_driver():
-    options = webdriver.ChromeOptions()
 
-    # Add additional options to use the display created by Xvfb
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920x1080")
-    options.add_argument("--display=:99")  # Set display to Xvfb
+options = webdriver.ChromeOptions()
 
-    return webdriver.Chrome(options=options)
+
+# Add additional options to use the display created by Xvfb
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+options.add_argument("--window-size=1920x1080")
+options.add_argument("--display=:99")  # Set display to Xvfb
+
+driver = webdriver.Chrome(options=options)
 
 
     
 def ranklistingcheck():
-    driver = initialize_driver()
+
     
     
     driver.get(website)
