@@ -32,9 +32,9 @@ def initialize_driver():
 
     return webdriver.Chrome(options=options)
 
-    
+driver = initialize_driver()    
 def ranklistingcheck():
-    driver = initialize_driver()
+    
     
     
     driver.get(website)
