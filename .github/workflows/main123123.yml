@@ -6,7 +6,6 @@ on:
   # schedule:
   # - cron: "0 0 * * *"  # This runs the workflow every day at midnight (UTC)
 
-
 jobs:
   run_python_script:
     runs-on: ubuntu-latest
@@ -18,23 +17,22 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9' 
+        python-version: '3.9'
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install chromium-chromedriver
-        
+        sudo apt-get install -y xvfb
         python -m pip install --upgrade pip
-        pip install pandas selenium 
-        
-                  
-          sudo apt-get install -y xvfb
-    - name: Run Python Script
+        pip install selenium pandas
+
+    - name: Start Xvfb
+      run: Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
+
+    - name: Run Python script
       env:
-        GSHEET_CRED_MATRIX_RBREEZE: ${{ secrets.GSHEET_CRED_MATRIX_RBREEZE }} 
+        GSHEET_CRED_MATRIX_RBREEZE: ${{ secrets.GSHEET_CRED_MATRIX_RBREEZE }}
         D_USERNAME_SECRET: ${{ secrets.D_USERNAME_SECRET }}
         D_PASSWORD_SECRET: ${{ secrets.D_PASSWORD_SECRET }}
-        
-      run: |
-        python main.py
+        DISPLAY: :99
+      run: python main.py
