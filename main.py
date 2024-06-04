@@ -118,15 +118,13 @@ def data_to_json(unique_data):
         }
         airbnb_data.append(airbnb_entry)
 
-    rb_bnb_json = json.dumps(airbnb_data, indent=4)
-    with open('json_file/rb_bnb.json', 'w') as f:
-        f.write(rb_bnb_json)
+
 
 
 unique_data = ranklistingcheck()
 data_to_json(unique_data)
 
-print(airbnb_entry)
+print(airbnb_data)
 end_time = time.time()
 
 elapsed_time = end_time - start_time
