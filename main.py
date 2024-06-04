@@ -31,11 +31,12 @@ def initialize_driver():
 with initialize_driver() as driver:
     
     
-    def ranklistingcheck():
+def ranklistingcheck():
+    with initialize_driver() as driver:
         driver.get(website)
-    
+        
         time.sleep(3)
-    
+        
         driver.find_element("xpath", """(//div[@class="form-group"]/input)[1]""").send_keys(username)
         time.sleep(1)
         driver.find_element("xpath", """(//div[@class="form-group"]/input)[2]""").send_keys(passw)
@@ -43,10 +44,10 @@ with initialize_driver() as driver:
         time.sleep(1)
         log.click()
         time.sleep(1)
-    
+        
         proxy_links = []
         addresses = []
-    
+        
         while True:
             # Get all the desired links on the current page
             links = driver.find_elements("xpath",
@@ -54,13 +55,13 @@ with initialize_driver() as driver:
             for link in links:
                 web = link.get_attribute("href")
                 proxy_links.append(web)
-    
+        
             address_elements = driver.find_elements("xpath", """//td[1]/div[2]/div[1]/small""")
             for element in address_elements:
                 address_text = element.text
                 address2 = address_text.replace(' - ', '--').replace(' ', '-')
                 addresses.append(address2)
-    
+        
             time.sleep(13)
             # Check if there's a "Next" button on the page
             next_buttons = driver.find_elements("xpath", """//span[@class="next"]""")
@@ -68,27 +69,27 @@ with initialize_driver() as driver:
                 # Click the first "Next" button
                 next_buttons[0].click()
             else:
-    
+        
                 links = driver.find_elements("xpath",
                                              """//a[@class="btn btn-outline-primary card-btn custom-nav-button mr-1"]""")
                 for link in links:
                     web = link.get_attribute("href")
                     proxy_links.append(web)
-    
+        
                 address_elements = driver.find_elements("xpath", """//td[1]/div[2]/div[1]/small""")
                 for element in address_elements:
                     address_text = element.text
                     address2 = address_text.replace(' - ', '--').replace(' ', '-')
                     addresses.append(address2)
                 break
-
+        
         data = []
         for i in range(min(len(proxy_links), len(addresses))):
             data.append({
                 "proxy_link": proxy_links[i],
                 "address": addresses[i]
             })
-    
+        
         unique_values = list(set(tuple(item.items()) for item in data))
         unique_data = [dict(item) for item in unique_values]
         return unique_data
