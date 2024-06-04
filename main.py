@@ -9,6 +9,10 @@ start_time = time.time()
 username = os.environ['D_USERNAME_SECRET']
 passw = os.environ['D_PASSWORD_SECRET']
 
+# Configure logging
+logging.basicConfig(filename='rankbreeze_data.log', level=logging.INFO)
+
+
 website = "https://app.rankbreeze.com/listings?page=13"
 
 # Set up Chrome WebDriver
@@ -126,14 +130,6 @@ unique_data = ranklistingcheck()
 data_to_json(unique_data)
 
 
-
-# Configure logging
-logging.basicConfig(filename='rankbreeze_data.log', level=logging.INFO)
-
-# ... rest of your code ...
-
-unique_data = ranklistingcheck()
-data_to_json(unique_data)
 
 logging.info(f"Final Data: {final_data}")
 
