@@ -5,7 +5,7 @@ from selenium import webdriver
 import shutil
 import json
 from selenium.webdriver.chrome.service import Service
-from xvfbwrapper import Xvfb
+
 
 start_time = time.time()
 username = os.environ['D_USERNAME_SECRET']
