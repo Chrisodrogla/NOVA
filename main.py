@@ -4,13 +4,12 @@ import datetime
 from selenium import webdriver
 import shutil
 import json
-import logging
+
 start_time = time.time()
 username = os.environ['D_USERNAME_SECRET']
 passw = os.environ['D_PASSWORD_SECRET']
 
-# Configure logging
-logging.basicConfig(filename='rankbreeze_data.log', level=logging.INFO)
+
 
 
 website = "https://app.rankbreeze.com/listings?page=13"
@@ -114,6 +113,8 @@ def data_to_json(unique_data):
 
     airbnb_data = []
 
+    
+
     for item in final_data:
         airbnb_entry = {
             'proxy_link': item[0][1],
@@ -124,14 +125,15 @@ def data_to_json(unique_data):
         airbnb_data.append(airbnb_entry)
 
 
+    print(airbnb_data)
+
+
 
 
 unique_data = ranklistingcheck()
 data_to_json(unique_data)
 
 
-
-logging.info(f"Final Data: {final_data}")
 
 elapsed_time = end_time - start_time
 minutes = int(elapsed_time // 60)
