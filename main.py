@@ -55,7 +55,7 @@ def ranklistingcheck():
             address2 = address_text.replace(' - ', '--').replace(' ', '-')
             addresses.append(address2)
 
-        time.sleep(5)
+        time.sleep(13)
         # Check if there's a "Next" button on the page
         next_buttons = driver.find_elements("xpath", """//span[@class="next"]""")
         if len(next_buttons) > 0:
@@ -133,7 +133,7 @@ def data_to_json(unique_data):
 unique_data = ranklistingcheck()
 data_to_json(unique_data)
 
-
+end_time = time.time()
 
 elapsed_time = end_time - start_time
 minutes = int(elapsed_time // 60)
