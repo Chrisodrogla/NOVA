@@ -20,23 +20,15 @@ website = "https://app.rankbreeze.com/listings?page=13"
 
 
 
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
-import time
+# Set up Chrome WebDriver
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-gpu")
+options.add_argument("--window-size=1920x1080")
 
-def initialize_driver():
-    options = webdriver.ChromeOptions()
-
-    # Add additional options to use the display created by Xvfb
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920x1080")
-    options.add_argument("--display=:99")  # Set display to Xvfb
-
-    # Initialize the Chrome driver with the specified options
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-    return driver
+driver = webdriver.Chrome(options=options)
 
     
 def ranklistingcheck():
