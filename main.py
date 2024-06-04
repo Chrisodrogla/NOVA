@@ -4,14 +4,9 @@ import datetime
 from selenium import webdriver
 import shutil
 import json
-
-
 start_time = time.time()
-
 username = os.environ['D_USERNAME_SECRET']
 passw = os.environ['D_PASSWORD_SECRET']
-
-
 
 website = "https://app.rankbreeze.com/listings"
 
@@ -114,17 +109,27 @@ def data_to_json(unique_data):
 
     airbnb_data = []
 
+    for item in final_data:
+        airbnb_entry = {
+            'proxy_link': item[0][1],
+            'address': item[1][1],
+            'rankbreeze_Id': item[2][1],
+            'airbnb_link': item[3][1]
+        }
+        airbnb_data.append(airbnb_entry)
 
+    rb_bnb_json = json.dumps(airbnb_data, indent=4)
+    with open('json_file/rb_bnb.json', 'w') as f:
+        f.write(rb_bnb_json)
 
 
 unique_data = ranklistingcheck()
 data_to_json(unique_data)
 
-print(data)
+print(airbnb_entry)
 end_time = time.time()
 
 elapsed_time = end_time - start_time
 minutes = int(elapsed_time // 60)
 seconds = int(elapsed_time % 60)
 print(f"Time takes {minutes} minutes and {seconds} seconds")
-
