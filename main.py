@@ -25,7 +25,7 @@ driver = webdriver.Chrome(options=options)
 def ranklistingcheck():
     driver.get(website)
 
-    time.sleep(1)
+    time.sleep(3)
 
     driver.find_element("xpath", """(//div[@class="form-group"]/input)[1]""").send_keys(username)
     time.sleep(1)
