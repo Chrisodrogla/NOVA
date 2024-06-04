@@ -24,9 +24,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install chromium-chromedriver
-        sudo apt-get update
+        
         python -m pip install --upgrade pip
-        pip install pandas selenium pyodbc webdriver-manager
+        pip install pandas selenium 
         
                   
           sudo apt-get install -y xvfb
