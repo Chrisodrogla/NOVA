@@ -9,13 +9,11 @@ import os
 import json
 
 # Set up Chrome WebDriver with custom options
+# Set up Chrome WebDriver with custom options
 options = webdriver.ChromeOptions()
 options.add_argument("--headless")
-options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-gpu")
-options.add_argument("--window-size=1920x1080")
-options.add_argument("--display=:99")  # Set display to Xvfb
+options.add_argument("--no-sandbox")
 
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
@@ -191,6 +189,9 @@ for website in link_websites:
 # Convert the data to a DataFrame
 df = pd.DataFrame(data)
 
+
+print (df)
+
 # Append the new data to Sheet2, avoiding duplicates
 if not df.empty:
     # Convert DataFrame to list of lists for Google Sheets
@@ -210,18 +211,16 @@ else:
     print("DataFrame is empty, no data to append.")
 
 # Write the DataFrame to Sheet1 starting from the second row (A2) without the header
-if not df.empty:
-    values = df.values.tolist()  # Only the data rows
 
-    try:
-        service.spreadsheets().values().update(
-            spreadsheetId=SHEET_ID,
-            range=SHEET_NAME1 + '!A2',  # Start writing from the second row of Sheet1
-            valueInputOption="RAW",
-            body={"values": values},
-        ).execute()
-        print("Data written to Sheet1 successfully.")
-    except HttpError as e:
-        print("Error writing data to Sheet1:", e)
-else:
-    print("DataFrame is empty, no data to write to Sheet1.")
+values = df.values.tolist()  # Only the data rows
+
+try:
+    service.spreadsheets().values().update(
+        spreadsheetId=SHEET_ID,
+        range=SHEET_NAME1 + '!A2',  # Start writing from the second row of Sheet1
+        valueInputOption="RAW",
+        body={"values": values},
+    ).execute()
+    print("Data written to Sheet1 successfully.")
+except HttpError as e:
+    print("Error writing data to Sheet1:", e)
