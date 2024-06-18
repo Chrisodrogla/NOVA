@@ -8,18 +8,14 @@ from googleapiclient.errors import HttpError
 import os
 import json
 
-# Function to initialize the WebDriver
-def initialize_driver():
-    options = webdriver.ChromeOptions()
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920x1080")
-    options.add_argument("--display=:99")  # Set display to Xvfb
-    return webdriver.Chrome(options=options)
-
-# Initialize the WebDriver
-driver = initialize_driver()
+# Set up Chrome WebDriver with custom options
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+options.add_argument("--window-size=1920x1080")
+options.add_argument("--display=:99")  # Set display to Xvfb
 
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
@@ -73,7 +69,7 @@ UpdatedAt = DateToday.strftime("%Y-%m-%d")
 
 data = []
 for website in link_websites:
-    
+    driver = webdriver.Chrome(options=options)
     driver.get(website)
     
     time.sleep(10)
