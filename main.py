@@ -8,11 +8,20 @@ from googleapiclient.errors import HttpError
 import os
 import json
 
-# Set up Chrome WebDriver with custom options
-options = webdriver.ChromeOptions()
-# options.add_argument("--headless")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--no-sandbox")
+
+
+
+def initialize_driver():
+    options = webdriver.ChromeOptions()
+
+    # Add additional options to use the display created by Xvfb
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920x1080")
+    options.add_argument("--display=:99")  # Set display to Xvfb
+
+    return webdriver.Chrome(options=options)
 
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
@@ -54,9 +63,11 @@ link_websites = [
 DateToday = date.today()
 UpdatedAt = DateToday.strftime("%Y-%m-%d")
 
+driver = initialize_driver()  
+
 data = []
 for website in link_websites:
-    driver = webdriver.Chrome(options=options)
+
     driver.get(website)
     
     time.sleep(3)
@@ -190,3 +201,17 @@ if not df.empty:
 else:
     print("DataFrame is empty, no data to append.")
 
+
+
+values = df.values.tolist()
+
+try:
+    service.spreadsheets().values().append(
+        spreadsheetId=SHEET_ID,
+        range=SHEET_NAME1,
+        valueInputOption="RAW",
+        body={"values": values},
+    ).execute()
+    print("Data appended to Sheet1 successfully.")
+except HttpError as e:
+    print("Error appending data to Sheet1:", e)
