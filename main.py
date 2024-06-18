@@ -209,10 +209,9 @@ if not df.empty:
 else:
     print("DataFrame is empty, no data to append.")
 
-# Write the DataFrame to Sheet1 starting from the second row (A2)
+# Write the DataFrame to Sheet1 starting from the second row (A2) without the header
 if not df.empty:
-    header = df.columns.tolist()
-    values = [header]  # Only the header row
+    values = df.values.tolist()  # Only the data rows
 
     try:
         service.spreadsheets().values().update(
