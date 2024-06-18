@@ -192,35 +192,35 @@ df = pd.DataFrame(data)
 
 print (df)
 
-# Append the new data to Sheet2, avoiding duplicates
-if not df.empty:
-    # Convert DataFrame to list of lists for Google Sheets
-    values = df.values.tolist()
+# # Append the new data to Sheet2, avoiding duplicates
+# if not df.empty:
+#     # Convert DataFrame to list of lists for Google Sheets
+#     values = df.values.tolist()
 
-    try:
-        service.spreadsheets().values().append(
-            spreadsheetId=SHEET_ID,
-            range=SHEET_NAME2 + '!A1',  # Start appending from the first row of Sheet2
-            valueInputOption="RAW",
-            body={"values": values},
-        ).execute()
-        print("Data appended to Sheet2 successfully.")
-    except HttpError as e:
-        print("Error appending data to Sheet2:", e)
-else:
-    print("DataFrame is empty, no data to append.")
+#     try:
+#         service.spreadsheets().values().append(
+#             spreadsheetId=SHEET_ID,
+#             range=SHEET_NAME2 + '!A1',  # Start appending from the first row of Sheet2
+#             valueInputOption="RAW",
+#             body={"values": values},
+#         ).execute()
+#         print("Data appended to Sheet2 successfully.")
+#     except HttpError as e:
+#         print("Error appending data to Sheet2:", e)
+# else:
+#     print("DataFrame is empty, no data to append.")
 
-# Write the DataFrame to Sheet1 starting from the second row (A2) without the header
+# # Write the DataFrame to Sheet1 starting from the second row (A2) without the header
 
-values = df.values.tolist()  # Only the data rows
+# values = df.values.tolist()  # Only the data rows
 
-try:
-    service.spreadsheets().values().update(
-        spreadsheetId=SHEET_ID,
-        range=SHEET_NAME1 + '!A2',  # Start writing from the second row of Sheet1
-        valueInputOption="RAW",
-        body={"values": values},
-    ).execute()
-    print("Data written to Sheet1 successfully.")
-except HttpError as e:
-    print("Error writing data to Sheet1:", e)
+# try:
+#     service.spreadsheets().values().update(
+#         spreadsheetId=SHEET_ID,
+#         range=SHEET_NAME1 + '!A2',  # Start writing from the second row of Sheet1
+#         valueInputOption="RAW",
+#         body={"values": values},
+#     ).execute()
+#     print("Data written to Sheet1 successfully.")
+# except HttpError as e:
+#     print("Error writing data to Sheet1:", e)
