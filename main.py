@@ -19,7 +19,7 @@ options.add_argument("--display=:99")  # Set display to Xvfb
 
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
-SHEET_NAME1 = 'Sheet1'  # Sheet to clear and then write new data
+SHEET_NAME1 = 'Sheet1'  # Sheet to clear data below header and write new data
 SHEET_NAME2 = 'Sheet2'  # Sheet to append new data without modifying existing
 
 # Get Google Sheets credentials from environment variable
@@ -29,10 +29,19 @@ credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CRE
 # Create Google Sheets API service
 service = build("sheets", "v4", credentials=credentials)
 
-# Delete all rows in Sheet1 except the header row (if it exists)
+# Clear all rows below the header row in Sheet1
 try:
-    service.spreadsheets().values().clear(spreadsheetId=SHEET_ID, range=SHEET_NAME1).execute()
-    print("Cleared data from Sheet1.")
+    # Get the number of rows in Sheet1
+    result = service.spreadsheets().values().get(spreadsheetId=SHEET_ID, range=SHEET_NAME1).execute()
+    num_rows = len(result.get('values', []))
+    
+    # Clear rows below the header row (if any rows exist)
+    if num_rows > 1:
+        clear_range = f"{SHEET_NAME1}!A2:A{num_rows}"  # Range to clear below header row
+        service.spreadsheets().values().clear(spreadsheetId=SHEET_ID, range=clear_range).execute()
+        print(f"Cleared rows 2 to {num_rows} in Sheet1.")
+    else:
+        print("No rows to clear in Sheet1 below header row.")
 except HttpError as e:
     print("Error clearing data from Sheet1:", e)
 
@@ -63,7 +72,7 @@ for website in link_websites:
     driver = webdriver.Chrome(options=options)
     driver.get(website)
     
-    time.sleep(3)
+    time.sleep(10)
     try:
         click_x = driver.find_element("xpath", """/html/body/div[9]/div/div/section/div/div/div[2]/div/div[1]/button""").click()
     except:
@@ -147,10 +156,14 @@ for website in link_websites:
         LastReviewName = ""
         LastReviewStar = ""
 
-    driver.quit()    # Your scraping code here...
-    # Example: Extracting data like listing_id, star_reviews, etc.
 
 
+
+
+
+
+
+    driver.quit()
 
     data.append({
         "Listing ID": listing_id,
@@ -196,7 +209,7 @@ if not df.empty:
 else:
     print("DataFrame is empty, no data to append.")
 
-# Write the DataFrame to Sheet1 (only the header row remains)
+# Write the DataFrame to Sheet1 starting from the second row (A2)
 if not df.empty:
     header = df.columns.tolist()
     values = [header]  # Only the header row
@@ -204,12 +217,12 @@ if not df.empty:
     try:
         service.spreadsheets().values().update(
             spreadsheetId=SHEET_ID,
-            range=SHEET_NAME1 + '!A1',  # Start writing from the first row of Sheet1
+            range=SHEET_NAME1 + '!A2',  # Start writing from the second row of Sheet1
             valueInputOption="RAW",
             body={"values": values},
         ).execute()
-        print("Header row written to Sheet1 successfully.")
+        print("Data written to Sheet1 successfully.")
     except HttpError as e:
-        print("Error writing header row to Sheet1:", e)
+        print("Error writing data to Sheet1:", e)
 else:
-    print("DataFrame is empty, no header row to write.")
+    print("DataFrame is empty, no data to write to Sheet1.")
