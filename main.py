@@ -11,17 +11,16 @@ import json
 
 
 
-def initialize_driver():
-    options = webdriver.ChromeOptions()
 
-    # Add additional options to use the display created by Xvfb
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920x1080")
-    options.add_argument("--display=:99")  # Set display to Xvfb
+options = webdriver.ChromeOptions()
 
-    return webdriver.Chrome(options=options)
+# Add additional options to use the display created by Xvfb
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+options.add_argument("--window-size=1920x1080")
+options.add_argument("--display=:99")  # Set display to Xvfb
+
 
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
@@ -63,11 +62,11 @@ link_websites = [
 DateToday = date.today()
 UpdatedAt = DateToday.strftime("%Y-%m-%d")
 
-driver = initialize_driver()  
+
 
 data = []
 for website in link_websites:
-
+    driver = webdriver.Chrome(options=options)
     driver.get(website)
     
     time.sleep(3)
