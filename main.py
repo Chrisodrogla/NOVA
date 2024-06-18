@@ -8,28 +8,19 @@ from googleapiclient.errors import HttpError
 import os
 import json
 
+# Set up Chrome WebDriver with custom options
+options = webdriver.ChromeOptions()
 
-
-
-
-def initialize_driver():
-    options = webdriver.ChromeOptions()
-
-    # Add additional options to use the display created by Xvfb
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920x1080")
-    options.add_argument("--display=:99")  # Set display to Xvfb
-
-    return webdriver.Chrome(options=options)
-
-
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+options.add_argument("--window-size=1920x1080")
+options.add_argument("--display=:99")  # Set display to Xvfb
 
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
-SHEET_NAME1 = 'Sheet1'  # Sheet to clear
-SHEET_NAME2 = 'Sheet2'  # Sheet to append
+SHEET_NAME1 = 'Sheet1'  # Sheet to clear and then write new data
+SHEET_NAME2 = 'Sheet2'  # Sheet to append new data without modifying existing
 
 # Get Google Sheets credentials from environment variable
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
@@ -38,9 +29,10 @@ credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CRE
 # Create Google Sheets API service
 service = build("sheets", "v4", credentials=credentials)
 
-# Delete all rows in Sheet1 (if it exists)
+# Delete all rows in Sheet1 except the header row (if it exists)
 try:
     service.spreadsheets().values().clear(spreadsheetId=SHEET_ID, range=SHEET_NAME1).execute()
+    print("Cleared data from Sheet1.")
 except HttpError as e:
     print("Error clearing data from Sheet1:", e)
 
@@ -66,19 +58,16 @@ link_websites = [
 DateToday = date.today()
 UpdatedAt = DateToday.strftime("%Y-%m-%d")
 
-
-
 data = []
 for website in link_websites:
-    driver = initialize_driver()
+    driver = webdriver.Chrome(options=options)
     driver.get(website)
     
     time.sleep(3)
     try:
         click_x = driver.find_element("xpath", """/html/body/div[9]/div/div/section/div/div/div[2]/div/div[1]/button""").click()
     except:
-        pass
-    
+        pass    
     try:
         listing_id = website.split('/')[-1]
     except:
@@ -158,7 +147,10 @@ for website in link_websites:
         LastReviewName = ""
         LastReviewStar = ""
 
-    driver.quit()
+    driver.quit()    # Your scraping code here...
+    # Example: Extracting data like listing_id, star_reviews, etc.
+
+
 
     data.append({
         "Listing ID": listing_id,
@@ -194,7 +186,7 @@ if not df.empty:
     try:
         service.spreadsheets().values().append(
             spreadsheetId=SHEET_ID,
-            range=SHEET_NAME2,
+            range=SHEET_NAME2 + '!A1',  # Start appending from the first row of Sheet2
             valueInputOption="RAW",
             body={"values": values},
         ).execute()
@@ -204,17 +196,20 @@ if not df.empty:
 else:
     print("DataFrame is empty, no data to append.")
 
+# Write the DataFrame to Sheet1 (only the header row remains)
+if not df.empty:
+    header = df.columns.tolist()
+    values = [header]  # Only the header row
 
-
-values = df.values.tolist()
-
-try:
-    service.spreadsheets().values().append(
-        spreadsheetId=SHEET_ID,
-        range=SHEET_NAME1,
-        valueInputOption="RAW",
-        body={"values": values},
-    ).execute()
-    print("Data appended to Sheet1 successfully.")
-except HttpError as e:
-    print("Error appending data to Sheet1:", e)
+    try:
+        service.spreadsheets().values().update(
+            spreadsheetId=SHEET_ID,
+            range=SHEET_NAME1 + '!A1',  # Start writing from the first row of Sheet1
+            valueInputOption="RAW",
+            body={"values": values},
+        ).execute()
+        print("Header row written to Sheet1 successfully.")
+    except HttpError as e:
+        print("Error writing header row to Sheet1:", e)
+else:
+    print("DataFrame is empty, no header row to write.")
