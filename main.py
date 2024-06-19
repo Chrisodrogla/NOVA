@@ -19,8 +19,8 @@ options.add_argument("--display=:99")  # Set display to Xvfb
 
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
-SHEET_NAME1 = 'Sheet1'  # Sheet to clear data below header and write new data
-SHEET_NAME2 = 'Sheet2'  # Sheet to append new data without modifying existing
+SHEET_NAME1 = 'Review'  # Sheet to clear data below header and write new data
+SHEET_NAME2 = 'History_Review'  # Sheet to append new data without modifying existing
 
 # Get Google Sheets credentials from environment variable
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
@@ -28,33 +28,6 @@ credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CRE
 
 # Create Google Sheets API service
 service = build("sheets", "v4", credentials=credentials)
-
-# Clear all rows below the header row in Sheet1
-try:
-    # Get the number of rows in Sheet1
-    result = service.spreadsheets().values().get(spreadsheetId=SHEET_ID, range=SHEET_NAME1).execute()
-    num_rows = len(result.get('values', []))
-    
-    # Clear rows below the header row (if any rows exist)
-    if num_rows > 1:
-        clear_range = f"{SHEET_NAME1}!A2:A{num_rows}"  # Range to clear below header row
-        service.spreadsheets().values().clear(spreadsheetId=SHEET_ID, range=clear_range).execute()
-        print(f"Cleared rows 2 to {num_rows} in Sheet1.")
-    else:
-        print("No rows to clear in Sheet1 below header row.")
-except HttpError as e:
-    print("Error clearing data from Sheet1:", e)
-
-# Read existing data from Google Sheets to avoid duplicates in Sheet2
-try:
-    response = service.spreadsheets().values().get(spreadsheetId=SHEET_ID, range=SHEET_NAME2).execute()
-    existing_data = response.get("values", [])
-except HttpError as e:
-    print("Error fetching data from Sheet2:", e)
-    existing_data = []
-
-# Get the list of existing website links from Sheet2
-existing_websites = [row[6] for row in existing_data[1:]]  # Assuming website URL is in the 7th column (index 6)
 
 # List of websites to scrape
 link_websites = [
@@ -157,12 +130,9 @@ for website in link_websites:
 
 
 
-
-
-
-
-
     driver.quit()
+
+
 
     data.append({
         "Listing ID": listing_id,
@@ -190,38 +160,24 @@ for website in link_websites:
 # Convert the data to a DataFrame
 df = pd.DataFrame(data)
 
-# Append the new data to Sheet2, avoiding duplicates
-if not df.empty:
-    # Convert DataFrame to list of lists for Google Sheets
-    values = df.values.tolist()
+# Clear all data below header in the "Review" sheet
+service.spreadsheets().values().clear(
+    spreadsheetId=SHEET_ID,
+    range=f"{SHEET_NAME1}!A2:Z"
+).execute()
 
-    try:
-        service.spreadsheets().values().append(
-            spreadsheetId=SHEET_ID,
-            range=SHEET_NAME2 + '!A1',  # Start appending from the first row of Sheet2
-            valueInputOption="RAW",
-            body={"values": values},
-        ).execute()
-        print("Data appended to Sheet2 successfully.")
-    except HttpError as e:
-        print("Error appending data to Sheet2:", e)
-else:
-    print("DataFrame is empty, no data to append.")
+# Write new data to the "Review" sheet starting from row 2
+service.spreadsheets().values().update(
+    spreadsheetId=SHEET_ID,
+    range=f"{SHEET_NAME1}!A2",
+    valueInputOption="RAW",
+    body={"values": df.values.tolist()}
+).execute()
 
-# Write the DataFrame to Sheet1 starting from the second row (A2)
-if not df.empty:
-    header = df.columns.tolist()
-    values = [header]  # Only the header row
-
-    try:
-        service.spreadsheets().values().update(
-            spreadsheetId=SHEET_ID,
-            range=SHEET_NAME1 + '!A2',  # Start writing from the second row of Sheet1
-            valueInputOption="RAW",
-            body={"values": values},
-        ).execute()
-        print("Data written to Sheet1 successfully.")
-    except HttpError as e:
-        print("Error writing data to Sheet1:", e)
-else:
-    print("DataFrame is empty, no data to write to Sheet1.")
+# Append new data to the "History_Review" sheet
+service.spreadsheets().values().append(
+    spreadsheetId=SHEET_ID,
+    range=f"{SHEET_NAME2}!A1",
+    valueInputOption="RAW",
+    body={"values": df.values.tolist()}
+).execute()
