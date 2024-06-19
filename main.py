@@ -350,6 +350,10 @@ for website in link_websites:
         click_x = driver.find_element("xpath", """/html/body/div[9]/div/div/section/div/div/div[2]/div/div[1]/button""").click()
     except:
         pass       
+
+
+
+    
     
     try:
         ResponseRate = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[1]""").text
@@ -362,16 +366,19 @@ for website in link_websites:
 
                 ResponseRate = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[5]/div/div[2]/div[1]""").text
             except:
-                if Title :
-                 
-                 
-                 ResponseRate = 'Response rate: 99%'
-                else:
-                    ResponseRate = ''
+                ResponseRate = ''
+                
+                
+        if ResponseRate == '' and Title != '':
+
+            ResponseRate = 'Response rate: 99%'
+        else:
+            pass
 
 
 
     try:
+        
         ResponseTime = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[2]""").text
     except:
 
@@ -382,12 +389,15 @@ for website in link_websites:
 
                 ResponseTime = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[13]/div/div/div/div/section/div/div/div[2]/div[5]/div/div[2]/div[2]""").text
             except:
-                if Title :
-                 
-                 
-                 ResponseTime = 'Responds within an hour'
-                else:
-                    ResponseTime = ''
+                ResponseTime = ''
+                
+                
+        if ResponseTime == '' and Title != '':
+
+            ResponseTime = 'Responds within an hour'
+        else:
+            pass
+
 
 
     try:
