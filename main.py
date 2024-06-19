@@ -286,23 +286,17 @@ for website in link_websites:
     try:
         listing_id = website.split('/')[-1]
     except:
-        listing_id = "N/A"
+        listing_id = ""
 
     try:
         review_counts = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[2]/div/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/span/span[3]""").get_attribute("innerText").strip(' reviews')
     except:
-        review_counts = ""
-
-    try:
-        guest_bed_bath = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[2]/ol""").text
-    except:
-        guest_bed_bath = "N/A"
-
-    try:
-        reviews_count = driver.find_element("xpath", """//span[@class="_1wl1dfc"] | //span[@class="_17qqrnq"]""").get_attribute("innerText").strip(" reviews")
-    except:
-        reviews_count = "N/A"
-
+        try:
+            
+            review_counts = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[12]/div/div/div/div[2]/div/section/div[1]/div[1]/span/h2/div//span""").text.strip(' reviews')
+            
+        except: 
+            review_counts = ""
     try:
         AirbnbBadge1 = driver.find_element("xpath", """//div[@data-plugin-in-point-id='GUEST_FAVORITE_BANNER']""")
         if AirbnbBadge1:
@@ -315,12 +309,12 @@ for website in link_websites:
     try:
         star_reviews = driver.find_element("xpath", """//span[@class="_12si43g"]""").get_attribute("innerText").strip(" ·")
     except:
-        star_reviews = "N/A"
+        star_reviews = " "
 
     try:
-        hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText").strip('Hosted by')
+        hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText").replace('Hosted by','')
     except:
-        hosted_by = "N/A"
+        hosted_by = ""
 
     try:
         CohostName = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[1]/ul/li[1]/span""").get_attribute("innerText")
@@ -353,15 +347,59 @@ for website in link_websites:
  
     try:
         ResponseRate = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[1]""").text
+    except:
+
+        try:
+            ResponseRate = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[13]/div/div/div/div/section/div/div/div[2]/div[5]/div/div[2]/div[1]""").text
+        except:
+            try:                                           
+
+                ResponseRate = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[5]/div/div[2]/div[1]""").text
+            except:
+                ResponseRate = ''
+
+
+    try:
         ResponseTime = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[2]""").text
+    except:
+
+        try:
+            ResponseTime = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[5]/div/div[2]/div[2]""").text
+        except:
+            try:                                           
+
+                ResponseTime = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[13]/div/div/div/div/section/div/div/div[2]/div[5]/div/div[2]/div[2]""").text
+            except:
+                ResponseTime = ''
+
+
+
+    try:
         LastReviewName = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[3]/div/div/div[1]//h3""").get_attribute("innerText")
+    except:
+
+        try:
+            LastReviewName = driver.find_element("xpath", """//*[@id="review_1168908391037552156_title"]/h3""").get_attribute("innerText")
+        except:                                              
+            try:                                           
+
+                LastReviewName = driver.find_element("xpath", """/html/body/div[5]/div/div/div[1]/div/div[2]/div/div/div/div[1]/main/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[3]/div/div/div[1]/div/div[1]/div[1]/div/div[1]/h3""").get_attribute("innerText")
+            except:
+                LastReviewName = ''
+
+
+    try:
         LastReviewStar = driver.find_element("xpath", """(//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[3]/div/div/div[1]//span)[1]""").get_attribute("innerText")
     except:
-        ResponseRate = ""
-        ResponseTime = ""
-        LastReviewName = ""
-        LastReviewStar = ""
 
+        try:
+            LastReviewStar = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[12]/div/div/div/div/div/section/div[2]/div/div/ul/li[1]/div/div/div[1]/div[1]/div[1]/span""").get_attribute("innerText")
+        except:                                              
+            try:                                           
+
+                LastReviewStar= driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[3]/div/div/div[1]/div/div[1]/div[2]/div[1]/span""").get_attribute("innerText")
+            except:
+                LastReviewStar = ''
 
 
     driver.quit()
@@ -370,7 +408,7 @@ for website in link_websites:
 
     data.append({
         "Listing ID": listing_id,
-        "Star Reviews": star_reviews,
+        "Score": star_reviews,
         "ReviewNumber": review_counts,
         "AirbnbBadge": AirbnbBadge,
         "MainHost": hosted_by,
