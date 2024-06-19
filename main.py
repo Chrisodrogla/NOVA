@@ -369,16 +369,17 @@ for website in link_websites:
                 ResponseRate = ''
                 
                 
-        if ResponseRate == '' and Title != '':
+    if ResponseRate == '' and Title != '':
+        
 
-            ResponseRate = 'Response rate: 99%'
-        else:
-            pass
+        ResponseRate = 'Response rate: 99%'
+    else:
+        pass
 
 
 
     try:
-        
+
         ResponseTime = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[2]""").text
     except:
 
@@ -390,13 +391,13 @@ for website in link_websites:
                 ResponseTime = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[13]/div/div/div/div/section/div/div/div[2]/div[5]/div/div[2]/div[2]""").text
             except:
                 ResponseTime = ''
-                
-                
-        if ResponseTime == '' and Title != '':
 
-            ResponseTime = 'Responds within an hour'
-        else:
-            pass
+    if ResponseTime == '' and Title != '':
+        ResponseTime = 'Responds within an hour'
+    else:
+        pass
+
+
 
 
 
