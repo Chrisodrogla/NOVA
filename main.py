@@ -343,7 +343,7 @@ for website in link_websites:
     try:
         Title = driver.find_element("xpath", """//div[@data-plugin-in-point-id="TITLE_DEFAULT"]//h1""").get_attribute("innerText")
     except:
-        Title = ""
+        Title = ''
 
 
     try:
@@ -353,7 +353,7 @@ for website in link_websites:
 
 
 
-    
+
     
     try:
         ResponseRate = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[1]""").text
