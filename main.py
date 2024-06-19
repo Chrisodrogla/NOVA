@@ -9,16 +9,18 @@ import os
 import json
 
 # Set up Chrome WebDriver with custom options
-# Set up Chrome WebDriver with custom options
 options = webdriver.ChromeOptions()
 options.add_argument("--headless")
-options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+options.add_argument("--window-size=1920x1080")
+options.add_argument("--display=:99")  # Set display to Xvfb
 
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
-SHEET_NAME1 = 'Review'  # Sheet to clear data below header and write new data
-SHEET_NAME2 = 'History_Review'  # Sheet to append new data without modifying existing
+SHEET_NAME1 = 'Sheet1'  # Sheet to clear data below header and write new data
+SHEET_NAME2 = 'Sheet2'  # Sheet to append new data without modifying existing
 
 # Get Google Sheets credentials from environment variable
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
@@ -69,7 +71,6 @@ data = []
 for website in link_websites:
     driver = webdriver.Chrome(options=options)
     driver.get(website)
-    
     time.sleep(10)
     try:
         click_x = driver.find_element("xpath", """/html/body/div[9]/div/div/section/div/div/div[2]/div/div[1]/button""").click()
@@ -189,38 +190,38 @@ for website in link_websites:
 # Convert the data to a DataFrame
 df = pd.DataFrame(data)
 
+# Append the new data to Sheet2, avoiding duplicates
+if not df.empty:
+    # Convert DataFrame to list of lists for Google Sheets
+    values = df.values.tolist()
 
-print (df)
+    try:
+        service.spreadsheets().values().append(
+            spreadsheetId=SHEET_ID,
+            range=SHEET_NAME2 + '!A1',  # Start appending from the first row of Sheet2
+            valueInputOption="RAW",
+            body={"values": values},
+        ).execute()
+        print("Data appended to Sheet2 successfully.")
+    except HttpError as e:
+        print("Error appending data to Sheet2:", e)
+else:
+    print("DataFrame is empty, no data to append.")
 
-# # Append the new data to Sheet2, avoiding duplicates
-# if not df.empty:
-#     # Convert DataFrame to list of lists for Google Sheets
-#     values = df.values.tolist()
+# Write the DataFrame to Sheet1 starting from the second row (A2)
+if not df.empty:
+    header = df.columns.tolist()
+    values = [header]  # Only the header row
 
-#     try:
-#         service.spreadsheets().values().append(
-#             spreadsheetId=SHEET_ID,
-#             range=SHEET_NAME2 + '!A1',  # Start appending from the first row of Sheet2
-#             valueInputOption="RAW",
-#             body={"values": values},
-#         ).execute()
-#         print("Data appended to Sheet2 successfully.")
-#     except HttpError as e:
-#         print("Error appending data to Sheet2:", e)
-# else:
-#     print("DataFrame is empty, no data to append.")
-
-# # Write the DataFrame to Sheet1 starting from the second row (A2) without the header
-
-# values = df.values.tolist()  # Only the data rows
-
-# try:
-#     service.spreadsheets().values().update(
-#         spreadsheetId=SHEET_ID,
-#         range=SHEET_NAME1 + '!A2',  # Start writing from the second row of Sheet1
-#         valueInputOption="RAW",
-#         body={"values": values},
-#     ).execute()
-#     print("Data written to Sheet1 successfully.")
-# except HttpError as e:
-#     print("Error writing data to Sheet1:", e)
+    try:
+        service.spreadsheets().values().update(
+            spreadsheetId=SHEET_ID,
+            range=SHEET_NAME1 + '!A2',  # Start writing from the second row of Sheet1
+            valueInputOption="RAW",
+            body={"values": values},
+        ).execute()
+        print("Data written to Sheet1 successfully.")
+    except HttpError as e:
+        print("Error writing data to Sheet1:", e)
+else:
+    print("DataFrame is empty, no data to write to Sheet1.")
