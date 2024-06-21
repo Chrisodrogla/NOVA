@@ -313,7 +313,10 @@ for website in link_websites:
         try:
             star_reviews = driver.find_element("xpath", """//div[@class="r1lutz1s atm_c8_o7aogt atm_c8_l52nlx__oggzyc dir dir-ltr"]""").get_attribute("innerText").strip(" ·")
         except:
-            star_reviews = ""
+                try:
+                    star_reviews = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[1]/div[1]/div[2]/h2/div""").text
+                except:
+                    star_reviews = "Not Available"
 
     try:
         hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText").replace('Hosted by','')
