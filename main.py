@@ -316,7 +316,7 @@ for website in link_websites:
                 try:
                     star_reviews = driver.find_element("xpath", """//span[@class="_1m3uwyl"]""").get_attribute("innerText").strip(" ·")
                 except:
-                    star_reviews = "Not Available"
+                    star_reviews = "No reviews yet"
 
     try:
         hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText").replace('Hosted by','')
