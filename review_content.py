@@ -330,6 +330,8 @@ for website in link_websites1:
             star_element = review.find_element("xpath", ".//span[contains(text(), 'Rating,')]")
             star_review = star_element.text.strip().strip('Rating, ')
 
+            Stayedat = ''
+
             content_element = review.find_element("xpath",
                                                   ".//div[@class='r1bctolv atm_c8_1sjzizj atm_g3_1dgusqm atm_26_lfmit2_13uojos atm_5j_1y44olf_13uojos atm_l8_1s2714j_13uojos dir dir-ltr']")
             content_review = content_element.text.strip()
@@ -359,6 +361,7 @@ for website in link_websites1:
                 'name': name,
                 'date_review': date_review,
                 'star_review': star_review,
+                'Stayedat': Stayedat,
                 'content_review': content_review,
                 'response_content': response_content,
                 'response_date': response_date,
@@ -369,6 +372,7 @@ for website in link_websites1:
         name = 'Listing has no Review Content or Unavailable'
         date_review = ''
         star_review = ''
+        Stayedat = ''
         content_review = ''
         response_content = ''
         response_date = ''
@@ -379,6 +383,7 @@ for website in link_websites1:
             'name': name,
             'date_review': date_review,
             'star_review': star_review,
+            'Stayedat': Stayedat,
             'content_review': content_review,
             'response_content': response_content,
             'response_date': response_date,
