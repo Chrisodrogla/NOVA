@@ -338,7 +338,7 @@ for website in link_websites1:
 
             try:  # Extract the response content
                 response_element = review.find_element("xpath",
-                                                       ".//div[@data-testid='pdp-reviews-response']//div[@style='line-height: 1.25rem;']")
+                                                       ".//div[@data-testid='pdp-reviews-response']//div[contains(@style, 'line-height: 1.25rem')]")
                 response_content = response_element.text.strip()
             except:
 

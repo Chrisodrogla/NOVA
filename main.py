@@ -20,7 +20,7 @@ options.add_argument("--display=:99")  # Set display to Xvfb
 # Google Sheets setup
 SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
 SHEET_NAME1 = 'Review'  # Sheet to clear data below header and write new data
-SHEET_NAME2 = 'History_Review'  # Sheet to append new data without modifying existing
+SHEET_NAME2 = 'Review_History'  # Sheet to append new data without modifying existing
 
 # Get Google Sheets credentials from environment variable
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
@@ -480,7 +480,7 @@ service.spreadsheets().values().update(
     body={"values": df.values.tolist()}
 ).execute()
 
-# Append new data to the "History_Review" sheet
+# Append new data to the "Review_History" sheet
 service.spreadsheets().values().append(
     spreadsheetId=SHEET_ID,
     range=f"{SHEET_NAME2}!A1",
