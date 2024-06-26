@@ -322,7 +322,7 @@ for website in link_websites1:
 
             # Extract the date of review
             date_element = review.find_element("xpath",
-                                               """.//div[@class="s78n3tv atm_c8_1w0928g atm_g3_1dd5bz5 atm_cs_9dzvea atm_9s_1txwivl atm_h_1h6ojuz dir dir-ltr"]""").text.split(
+                                               """.//div[contains(@class, "s78n3tv ")]""").text.split(
                 '·')[1]
             date_review = date_element.strip().strip('\n,')
 
