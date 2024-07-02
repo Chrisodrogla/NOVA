@@ -314,7 +314,7 @@ for website in link_websites:
             star_reviews = driver.find_element("xpath", """//div[@class="r1lutz1s atm_c8_o7aogt atm_c8_l52nlx__oggzyc dir dir-ltr"]""").get_attribute("innerText").strip(" ·")
         except:
                 try:
-                    star_reviews = driver.find_element("xpath", """//span[@class="_1m3uwyl"]""").get_attribute("innerText").strip(" ·")
+                    star_reviews = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[1]/div[1]/div[2]/h2/div""").get_attribute("innerText").strip(" ·")
                 except:
                     star_reviews = "No reviews yet"
 
