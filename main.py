@@ -18,7 +18,7 @@ options.add_argument("--window-size=1920x1080")
 options.add_argument("--display=:99")  # Set display to Xvfb
 
 # Google Sheets setup
-SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
+SHEET_ID = '1S6gAIsjuYyGtOmWFGpF9okAPMWq6SnZ1zbIylBZqCt4'
 SHEET_NAME1 = 'Review'  # Sheet to clear data below header and write new data
 SHEET_NAME2 = 'Review_History'  # Sheet to append new data without modifying existing
 
