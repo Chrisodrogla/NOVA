@@ -18,12 +18,12 @@ options.add_argument("--window-size=1920x1080")
 options.add_argument("--display=:99")  # Set display to Xvfb
 
 # Google Sheets setup
-SHEET_ID = '1Y-h3p_iHqvOXRkM1opCzo6tlCOM1mLzbaOJ57VnaFU8'
+SHEET_ID = '1S6gAIsjuYyGtOmWFGpF9okAPMWq6SnZ1zbIylBZqCt4' 
 SHEET_NAME1 = 'ReviewContent'  # Sheet to clear data below header and write new data
 
 # Get Google Sheets credentials from environment variable
-GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
-credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CREDENTIALS))
+GOOGLE_SHEETS_CREDENTIAL = os.getenv("GOOGLE_SHEETS_CREDENTIAL")
+credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CREDENTIAL))
 
 # Create Google Sheets API service
 service = build("sheets", "v4", credentials=credentials)
