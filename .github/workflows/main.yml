@@ -4,8 +4,8 @@ name: sample-exp-Nova-Airbnb
 on:
   workflow_dispatch: # This allows manual triggering of the workflow
 
-  # schedule:
-  # - cron: "0 0 * * *"  # This runs the workflow every day at midnight (UTC)
+  schedule:
+  - cron: "0 0 * * *"  # This runs the workflow every day at midnight (UTC)
 
 
 jobs:
@@ -23,6 +23,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb
         python -m pip install --upgrade pip
         pip install pandas selenium google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
@@ -31,4 +33,3 @@ jobs:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }} # Your Google Sheets credentials
       run: |
         python main.py
-

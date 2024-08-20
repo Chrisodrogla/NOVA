@@ -1,0 +1,38 @@
+name: MIANER
+
+on:
+  workflow_dispatch: # This allows manual triggering of the workflow
+
+  # schedule:
+  # - cron: "0 0 * * *"  # This runs the workflow every day at midnight (UTC)
+
+jobs:
+  run_python_script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb
+        python -m pip install --upgrade pip
+        pip install selenium pandas
+
+    - name: Start Xvfb
+      run: Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
+
+    - name: Run Python script
+      env:
+        GSHEET_CRED_MATRIX_RBREEZE: ${{ secrets.GSHEET_CRED_MATRIX_RBREEZE }}
+        D_USERNAME_SECRET: ${{ secrets.D_USERNAME_SECRET }}
+        D_PASSWORD_SECRET: ${{ secrets.D_PASSWORD_SECRET }}
+        DISPLAY: :99
+      run: python main.py

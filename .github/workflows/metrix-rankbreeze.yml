@@ -1,0 +1,46 @@
+name: RankBreeze-Data-run
+
+on:
+  workflow_dispatch: # This allows manual triggering of the workflow
+
+  # schedule:
+  # - cron: "0 0 * * *"  # This runs the workflow every day at midnight (UTC)
+
+
+jobs:
+  run_python_script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9' 
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas selenium pyodbc
+
+    - name: Run Python Script
+      env:
+        GSHEET_CRED_MATRIX_RBREEZE: ${{ secrets.GSHEET_CRED_MATRIX_RBREEZE }} 
+        D_USERNAME_SECRET: ${{ secrets.D_USERNAME_SECRET }}
+        D_PASSWORD_SECRET: ${{ secrets.D_PASSWORD_SECRET }}
+        INSERT_QUERY_1: ${{ secrets.INSERT_QUERY_1 }}
+        INSERT_QUERY_2: ${{ secrets.INSERT_QUERY_2 }}
+        INSERT_QUERY_3: ${{ secrets.INSERT_QUERY_3 }}
+        INSERT_QUERY_4: ${{ secrets.INSERT_QUERY_4 }}
+        INSERT_QUERY_5: ${{ secrets.INSERT_QUERY_5 }}
+        INSERT_QUERY_6: ${{ secrets.INSERT_QUERY_6 }}
+        INSERT_QUERY_7: ${{ secrets.INSERT_QUERY_7 }}
+        INSERT_QUERY_8: ${{ secrets.INSERT_QUERY_8 }}
+        INSERT_QUERY_9: ${{ secrets.INSERT_QUERY_9 }}
+        SECRET_CHRISTIANSQL_STRING: ${{ secrets.SECRET_CHRISTIANSQL_STRING }}
+
+        
+      run: |
+        python metrix_rankbreeze.py

@@ -18,9 +18,8 @@ options.add_argument("--window-size=1920x1080")
 options.add_argument("--display=:99")  # Set display to Xvfb
 
 # Google Sheets setup
-SHEET_ID = '1S6gAIsjuYyGtOmWFGpF9okAPMWq6SnZ1zbIylBZqCt4'
-SHEET_NAME1 = 'Review'  # Sheet to clear data below header and write new data
-SHEET_NAME2 = 'Review_History'  # Sheet to append new data without modifying existing
+SHEET_ID = '1S6gAIsjuYyGtOmWFGpF9okAPMWq6SnZ1zbIylBZqCt4' 
+SHEET_NAME1 = 'ReviewContent'  # Sheet to clear data below header and write new data
 
 # Get Google Sheets credentials from environment variable
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
@@ -29,8 +28,8 @@ credentials = Credentials.from_service_account_info(json.loads(GOOGLE_SHEETS_CRE
 # Create Google Sheets API service
 service = build("sheets", "v4", credentials=credentials)
 
-# List of websites to scrape
-link_websites = [
+
+link_websites1 = [
 "https://www.airbnb.com/rooms/7146166",
 "https://www.airbnb.com/rooms/796474546246084466",
 "https://www.airbnb.com/rooms/37941371",
@@ -274,197 +273,126 @@ link_websites = [
 DateToday = date.today()
 UpdatedAt = DateToday.strftime("%Y-%m-%d")
 
+reviews_data = []
 data = []
-for website in link_websites:
+
+for website in link_websites1:
+    revweb = website + "/reviews?"
     driver = webdriver.Chrome(options=options)
-    driver.get(website)
-    time.sleep(5)
-    try:
-        click_x = driver.find_element("xpath", """/html/body/div[9]/div/div/section/div/div/div[2]/div/div[1]/button""").click()
-    except:
-        pass    
-    try:
-        listing_id = website.split('/')[-1]
-    except:
-        listing_id = ""
+    listing_id = website.split('/')[-1]
+    driver.get(revweb)
 
-    try:
-        review_counts = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[2]/div/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/span/span[3]""").get_attribute("innerText").strip(' reviews')
-    except:
-        try:
-            
-            review_counts = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[12]/div/div/div/div[2]/div/section/div[1]/div[1]/span/h2/div//span""").text.strip(' reviews')
-            
-        except: 
-            review_counts = ""
-    try:
-        AirbnbBadge1 = driver.find_element("xpath", """//div[@data-plugin-in-point-id='GUEST_FAVORITE_BANNER']""")
-        if AirbnbBadge1:
-            AirbnbBadge = "Guest favorite"
-        else:
-            AirbnbBadge = "Guest favorite"
-    except:
-        AirbnbBadge = ''
-            
-    try:
-        star_reviews = driver.find_element("xpath", """//span[@class="_12si43g"]""").get_attribute("innerText").strip(" ·")
-    except:
+    time.sleep(5)  # Wait for the page to load
+
+
+    All_Reviews2 = driver.find_elements("xpath", """//div[@class="r1are2x1 atm_gq_1vi7ecw dir dir-ltr"]""")
+
+    if All_Reviews2:
         
-        try:
-            star_reviews = driver.find_element("xpath", """//div[@class="r1lutz1s atm_c8_o7aogt atm_c8_l52nlx__oggzyc dir dir-ltr"]""").get_attribute("innerText").strip(" ·")
-        except:
-                try:
-                    star_reviews = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[1]/div[1]/div[2]/h2/div""").get_attribute("innerText").strip(" ·")
-                except:
-                    star_reviews = "No reviews yet"
-
-    try:
-        hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText").replace('Hosted by','')
-    except:
-        hosted_by = ""
-
-    try:
-        CohostName = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[1]/ul/li[1]/span""").get_attribute("innerText")
-    except:
-        CohostName = ""
-    try:
-        Cohost2nd = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[1]/ul/li[2]/span""").get_attribute("innerText")
-    except:
-        Cohost2nd = ""
-        
-    try:
-        Cleanliness = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div/div[2]/div[2]""").get_attribute("innerText")
-        Accuracy = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[2]/div/div/div[3]/div/div/div/div/div[3]/div/div/div[2]/div[2]""").get_attribute("innerText")
-        Checkin = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[2]/div/div/div[3]/div/div/div/div/div[4]/div/div/div[2]/div[2]""").get_attribute("innerText")
-        Communication = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[2]/div/div/div[3]/div/div/div/div/div[5]/div/div/div[2]/div[2]""").get_attribute("innerText")
-        Location = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[2]/div/div/div[3]/div/div/div/div/div[6]/div/div/div[2]/div[2]""").get_attribute("innerText")
-        Value = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[2]/div/div/div[3]/div/div/div/div/div[7]/div/div/div[2]/div[2]""").get_attribute("innerText")
-    except:
-        Cleanliness = ''
-        Accuracy = ''
-        Checkin = ''
-        Communication = ''
-        Location = ''
-        Value = ''
-        
-    try:
-        Title = driver.find_element("xpath", """//div[@data-plugin-in-point-id="TITLE_DEFAULT"]//h1""").get_attribute("innerText")
-    except:
-        Title = ''
-
-
-    try:
-        click_x = driver.find_element("xpath", """/html/body/div[9]/div/div/section/div/div/div[2]/div/div[1]/button""").click()
-    except:
-        pass       
-
-
-
-
     
-    try:
-        ResponseRate = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[1]""").text
-    except:
-
+        # Locate the scrollable element, this needs to be the correct XPath for the reviews container
         try:
-            ResponseRate = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[13]/div/div/div/div/section/div/div/div[2]/div[5]/div/div[2]/div[1]""").text
-        except:
-            try:                                           
+            scrollable_div = driver.find_element("xpath", '//div[@class="_17itzz4"]')
+        except Exception as e:
+            print(f"Could not locate scrollable element: {e}")
+            driver.quit()
+            continue
 
-                ResponseRate = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[5]/div/div[2]/div[1]""").text
-            except:
-                ResponseRate = ''
-                
-                
-    if ResponseRate == '' and Title != '':
+        # Scroll down until all reviews are loaded
+        last_height = driver.execute_script("return arguments[0].scrollHeight;", scrollable_div)
+        while True:
+            # Scroll down
+            driver.execute_script("arguments[0].scrollTo(0, arguments[0].scrollHeight);", scrollable_div)
+
+            # Wait for reviews to load
+            time.sleep(3)
+
+            # Calculate new scroll height and compare with last scroll height
+            new_height = driver.execute_script("return arguments[0].scrollHeight;", scrollable_div)
+            if new_height == last_height:
+                break
+            last_height = new_height
+
+        All_Reviews = driver.find_elements("xpath", """//div[@class="r1are2x1 atm_gq_1vi7ecw dir dir-ltr"]""")
         
+        for review in All_Reviews:
 
-        ResponseRate = 'Response rate: 99%'
+            name_element = review.find_element("xpath", ".//h2[@elementtiming='LCP-target']")
+            name = name_element.text.strip()
+
+            # Extract the date of review
+            date_element = review.find_element("xpath",
+                                               """.//div[contains(@class, "s78n3tv ")]""").text.split(
+                '·')[1]
+            date_review = date_element.strip().strip('\n,')
+
+            # Extract the star rating
+            star_element = review.find_element("xpath", ".//span[contains(text(), 'Rating,')]")
+            star_review = star_element.text.strip().strip('Rating, ')
+
+            Stayedat = ''
+
+            content_element = review.find_element("xpath",
+                                                  ".//div[@class='r1bctolv atm_c8_1sjzizj atm_g3_1dgusqm atm_26_lfmit2_13uojos atm_5j_1y44olf_13uojos atm_l8_1s2714j_13uojos dir dir-ltr']")
+            content_review = content_element.text.strip()
+
+            try:  # Extract the response content
+                response_element = review.find_element("xpath",
+                                                       ".//div[@data-testid='pdp-reviews-response']//div[contains(@style, 'line-height: 1.25rem')]")
+                response_content = response_element.text.strip()
+            except:
+
+                response_content = ''
+
+            try:  # Extract the response date
+                response_date_element = review.find_element("xpath",
+                                                            ".//div[@data-testid='pdp-reviews-response']//div[@class='s15w4qkt atm_c8_1w0928g atm_g3_1dd5bz5 atm_cs_6adqpa atm_7l_1wzk1hz dir dir-ltr']")
+                response_date = response_date_element.text.strip()
+            except:
+          
+                response_date = ''
+            
+            
+            
+            
+                        # Append the extracted data to the list
+            reviews_data.append({
+                "Listing ID": listing_id,
+                'name': name,
+                'date_review': date_review,
+                'star_review': star_review,
+                'Stayedat': Stayedat,
+                'content_review': content_review,
+                'response_content': response_content,
+                'response_date': response_date,
+                'UpdatedAt': UpdatedAt
+            })
+            
     else:
-        pass
+        name = 'Listing has no Review Content or Unavailable'
+        date_review = ''
+        star_review = ''
+        Stayedat = ''
+        content_review = ''
+        response_content = ''
+        response_date = ''
+
+        # Append the extracted data to the list
+        reviews_data.append({
+            "Listing ID": listing_id,
+            'name': name,
+            'date_review': date_review,
+            'star_review': star_review,
+            'Stayedat': Stayedat,
+            'content_review': content_review,
+            'response_content': response_content,
+            'response_date': response_date,
+            'UpdatedAt': UpdatedAt
+        })
 
 
 
-    try:
-
-        ResponseTime = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[2]""").text
-    except:
-
-        try:
-            ResponseTime = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[5]/div/div[2]/div[2]""").text
-        except:
-            try:                                           
-
-                ResponseTime = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[13]/div/div/div/div/section/div/div/div[2]/div[5]/div/div[2]/div[2]""").text
-            except:
-                ResponseTime = ''
-
-    if ResponseTime == '' and Title != '':
-        ResponseTime = 'Responds within an hour'
-    else:
-        pass
-
-
-
-
-
-    try:
-        LastReviewName = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[3]/div/div/div[1]//h3""").get_attribute("innerText")
-    except:
-
-        try:
-            LastReviewName = driver.find_element("xpath", """//*[@id="review_1168908391037552156_title"]/h3""").get_attribute("innerText")
-        except:                                              
-            try:                                           
-
-                LastReviewName = driver.find_element("xpath", """/html/body/div[5]/div/div/div[1]/div/div[2]/div/div/div/div[1]/main/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[3]/div/div/div[1]/div/div[1]/div[1]/div/div[1]/h3""").get_attribute("innerText")
-            except:
-                LastReviewName = ''
-
-
-    try:
-        LastReviewStar = driver.find_element("xpath", """(//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[3]/div/div/div[1]//span)[1]""").get_attribute("innerText")
-    except:
-
-        try:
-            LastReviewStar = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[12]/div/div/div/div/div/section/div[2]/div/div/ul/li[1]/div/div/div[1]/div[1]/div[1]/span""").get_attribute("innerText")
-        except:                                              
-            try:                                           
-
-                LastReviewStar= driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[3]/div/div/div[1]/div/div[1]/div[2]/div[1]/span""").get_attribute("innerText")
-            except:
-                LastReviewStar = ''
-
-
-    driver.quit()
-
-
-
-    data.append({
-        "Listing ID": listing_id,
-        "Score": star_reviews,
-        "ReviewNumber": review_counts,
-        "AirbnbBadge": AirbnbBadge,
-        "MainHost": hosted_by,
-        "CohostName": CohostName,
-        "Cohost2nd": Cohost2nd,
-        "Original_URL": website,
-        "Cleanliness": Cleanliness,
-        "Accuracy": Accuracy,
-        "Checkin": Checkin,
-        "Communication": Communication,
-        "Location": Location,
-        "Value": Value,
-        "Title": Title,
-        "ResponseRate": ResponseRate,
-        "ResponseTime": ResponseTime,
-        "LastReviewName": LastReviewName,
-        "LastReviewStar": LastReviewStar,
-        "UpdatedAt": UpdatedAt,
-    })
-
-# Convert the data to a DataFrame
-df = pd.DataFrame(data)
+df = pd.DataFrame(reviews_data)
 
 # Clear all data below header in the "Review" sheet
 service.spreadsheets().values().clear(
@@ -476,14 +404,6 @@ service.spreadsheets().values().clear(
 service.spreadsheets().values().update(
     spreadsheetId=SHEET_ID,
     range=f"{SHEET_NAME1}!A2",
-    valueInputOption="RAW",
-    body={"values": df.values.tolist()}
-).execute()
-
-# Append new data to the "Review_History" sheet
-service.spreadsheets().values().append(
-    spreadsheetId=SHEET_ID,
-    range=f"{SHEET_NAME2}!A1",
     valueInputOption="RAW",
     body={"values": df.values.tolist()}
 ).execute()
