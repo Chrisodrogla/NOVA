@@ -319,16 +319,16 @@ for website in link_websites:
                     star_reviews = "No reviews yet"
 
     try:
-        hosted_by = driver.find_element("xpath", """//div[@class="t1pxe1a4 atm_c8_2x1prs atm_g3_1jbyh58 atm_fr_11a07z3 atm_cs_9dzvea dir dir-ltr"]""").get_attribute("innerText").replace('Hosted by','')
+        hosted_by = driver.find_element("xpath", """//div[contains(text(), "Hosted by")]""").get_attribute("innerText").replace('Hosted by','')
     except:
         hosted_by = ""
 
     try:
-        CohostName = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[1]/ul/li[1]/span""").get_attribute("innerText")
+        CohostName = driver.find_element("xpath", """ (//ul/li/span)[1]""").get_attribute("innerText")
     except:
         CohostName = ""
     try:
-        Cohost2nd = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[1]/ul/li[2]/span""").get_attribute("innerText")
+        Cohost2nd = driver.find_element("xpath", """(//ul/li/span)[2]""").get_attribute("innerText")
     except:
         Cohost2nd = ""
         
@@ -363,7 +363,7 @@ for website in link_websites:
 
     
     try:
-        ResponseRate = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[1]""").text
+        ResponseRate = driver.find_element("xpath", """//div[contains(text(), "Response rate:")]""").get_attribute("innerText")
     except:
 
         try:
@@ -387,7 +387,7 @@ for website in link_websites:
 
     try:
 
-        ResponseTime = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[6]/div/div/div/div[2]/section/div[2]/div/div/div[2]/div[2]/div/div[2]/div[2]""").text
+        ResponseTime = driver.find_element("xpath", """//div[contains(text(), "Responds within")]""").get_attribute("innerText")
     except:
 
         try:
