@@ -296,7 +296,7 @@ for website in link_websites:
             review_counts = driver.find_element("xpath", """//*[@id="react-application"]/div/div/div[1]/div/div[2]/div/div/div/div/div[1]/div[2]/div[1]/div[12]/div/div/div/div[2]/div/section/div[1]/div[1]/span/h2/div//span""").text.strip(' reviews')
             
         except: 
-            review_counts = ""
+            review_counts = 0
     try:
         AirbnbBadge1 = driver.find_element("xpath", """//div[@data-plugin-in-point-id='GUEST_FAVORITE_BANNER']""")
         if AirbnbBadge1:
@@ -316,7 +316,7 @@ for website in link_websites:
                 try:
                     star_reviews = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[1]/div[1]/div[2]/h2/div""").get_attribute("innerText").strip(" ·")
                 except:
-                    star_reviews = "No reviews yet"
+                    star_reviews = 0
 
     try:
         hosted_by = driver.find_element("xpath", """//div[contains(text(), "Hosted by")]""").get_attribute("innerText").replace('Hosted by','')
@@ -340,12 +340,12 @@ for website in link_websites:
         Location = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[2]/div/div/div[3]/div/div/div/div/div[6]/div/div/div[2]/div[2]""").get_attribute("innerText")
         Value = driver.find_element("xpath", """//*[@id="site-content"]/div/div[1]/div[4]/div/div/div/div[2]/div/section/div[2]/div/div/div[3]/div/div/div/div/div[7]/div/div/div[2]/div[2]""").get_attribute("innerText")
     except:
-        Cleanliness = ''
-        Accuracy = ''
-        Checkin = ''
-        Communication = ''
-        Location = ''
-        Value = ''
+        Cleanliness = 0
+        Accuracy = 0
+        Checkin = 0
+        Communication = 0
+        Location = 0
+        Value = 0
         
     try:
         Title = driver.find_element("xpath", """//div[@data-plugin-in-point-id="TITLE_DEFAULT"]//h1""").get_attribute("innerText")
