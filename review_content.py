@@ -316,6 +316,8 @@ for website in link_websites1:
         All_Reviews = driver.find_elements("xpath", """//div[@class="r1are2x1 atm_gq_1vi7ecw dir dir-ltr"]""")
         
         for review in All_Reviews:
+            
+            Review_ID =  review.get_attribute("data-review-id")
 
             name_element = review.find_element("xpath", ".//h2[@elementtiming='LCP-target']")
             name = name_element.text.strip()
@@ -365,7 +367,9 @@ for website in link_websites1:
                 'content_review': content_review,
                 'response_content': response_content,
                 'response_date': response_date,
+                'Review_ID':Review_ID,
                 'UpdatedAt': UpdatedAt
+                
             })
             
     else:
@@ -376,7 +380,7 @@ for website in link_websites1:
         content_review = ''
         response_content = ''
         response_date = ''
-
+        Review_ID = ''
         # Append the extracted data to the list
         reviews_data.append({
             "Listing ID": listing_id,
@@ -386,9 +390,11 @@ for website in link_websites1:
             'Stayedat': Stayedat,
             'content_review': content_review,
             'response_content': response_content,
+            'Review_ID':Review_ID,
             'response_date': response_date,
             'UpdatedAt': UpdatedAt
         })
+
 
 
 
