@@ -29,23 +29,23 @@ options.add_argument("--start-maximized")  # Set display to Xvfb
 
 UpdatedAt = datetime.datetime.now().strftime('%m/%d/%Y')
 
-# # Open and read the file
-# with open('List_VRBO_Listings.txt', 'r') as file:
-#     # Read each line, strip any whitespace, and store in a list
-#     Links_IDS = [line.strip() for line in file if line.strip()]
-#
-# # Initialize an empty list to store the modified links
-# Links = []
-#
-# # Loop through each ID and create the modified link
-# for ID in Links_IDS:
-#     Link_modified = "https://www.vrbo.com/" + ID
-#     Links.append(Link_modified)
+# Open and read the file
+with open('List_VRBO_Listings.txt', 'r') as file:
+    # Read each line, strip any whitespace, and store in a list
+    Links_IDS = [line.strip() for line in file if line.strip()]
 
-# Sample Links
-Links = \
-    ["https://www.vrbo.com/7727993ha",
-    "https://www.vrbo.com/7069423ha"]
+# Initialize an empty list to store the modified links
+Links = []
+
+# Loop through each ID and create the modified link
+for ID in Links_IDS:
+    Link_modified = "https://www.vrbo.com/" + ID
+    Links.append(Link_modified)
+
+# # Sample Links
+# Links = \
+#     ["https://www.vrbo.com/7727993ha",
+#     "https://www.vrbo.com/7069423ha"]
 
 driver = webdriver.Chrome(options=options)
 data = []
@@ -151,7 +151,7 @@ driver.quit()
 
 # Create a DataFrame with the data
 df = pd.DataFrame(data)
-
+df = df[df['GuestName'].str.strip() != '']
 
 
 # Google Sheets setup
