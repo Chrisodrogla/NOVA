@@ -62,7 +62,7 @@ for Link in Links:
     except:
         continue
 
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", Reviews_Button)
+    # driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", Reviews_Button)
     time.sleep(1)
     Reviews_Button.click()
 
