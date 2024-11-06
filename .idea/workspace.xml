@@ -5,64 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4102b8f-1d91-4a3d-8368-c33bd2cf70c0" name="Changes" comment="Main commit by Christian">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/main123123.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/workflows/metrix-rankbreeze.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/nova_scraper_.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/airflow.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dags/airbnb_list_query_scraper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dags/airbnb_list_scraper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dags/api_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/final_results.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/final_results.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/metrix_rankbreeze.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/print.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/review_content.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/output/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/pyproject.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/Overall_listing.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/attribute.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/final_rental_link.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/final_results.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/final_results.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/freeproxy.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/listing_attribute.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/listing_url.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/listing_url_generator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/rb_bnb.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/simultaneous.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/small_rb_bnb.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/Listing_Url/test_runner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/output/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/strategies/abstract.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/strategies/airbnb_com/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/strategies/airbnb_com/detail_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/strategies/airbnb_com/downloader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/strategies/airbnb_com/search_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/target_profiles.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/test_runner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/utils/http_curl.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/utils/http_fish.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scraper/scraper/utils/url_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/main.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/matrix-rankbreeze.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/reviewcontent.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/matrix_rankbreeze.py" beforeDir="false" afterPath="$PROJECT_DIR$/matrix_rankbreeze.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy-rental-link.json" beforeDir="false" afterPath="$PROJECT_DIR$/proxy-rental-link.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/VRBO_Reviews.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VRBO_Reviews.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,14 +49,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging main",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -191,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715175934525</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Main commit by Christian">
+      <option name="closed" value="true" />
+      <created>1724139102796</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1724139102796</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
