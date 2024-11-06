@@ -93,13 +93,18 @@ for Link in Links:
         Link_ID = Link.split('com/')[1].strip("ha")
 
         Link = Link
-
-        Rating = Review.find_element("xpath", """.//h3[@class="uitk-heading uitk-heading-5"]""").text
-
-        GuestName = Review.find_element("xpath", """.//h4""").text
-
-        Date = Review.find_element("xpath", """.//span[@itemprop="datePublished"]""").text
-
+        try:
+            Rating = Review.find_element("xpath", """.//h3[@class="uitk-heading uitk-heading-5"]""").text
+        except:
+            Rating = ""
+        try:    
+            GuestName = Review.find_element("xpath", """.//h4""").text
+        except:
+            GuestName = ""
+        try:     
+            Date = Review.find_element("xpath", """.//span[@itemprop="datePublished"]""").text
+        except:
+            Date = ""
         try:
             Standard = Review.find_element("xpath",
                                            """.//section[contains(@class, 'uitk-spacing') and .//span[contains(text(), 'Like')]]""").text
