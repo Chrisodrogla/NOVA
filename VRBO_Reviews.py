@@ -53,7 +53,7 @@ data = []
 for Link in Links:
     driver.get(Link)
     time.sleep(5)
-
+    driver.execute_script("document.body.style.zoom='25%'")
     #     driver.execute_script("document.body.style.zoom='70%'")
     try:
         Reviews_Button = driver.find_element("xpath",
