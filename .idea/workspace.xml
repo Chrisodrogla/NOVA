@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4102b8f-1d91-4a3d-8368-c33bd2cf70c0" name="Changes" comment="Main commit by Christian">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/VRBO_Reviews.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/VRBO_Reviews.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

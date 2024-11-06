@@ -1,9 +1,9 @@
 name: VRBO REVIEWS
 
 on:
-  workflow_dispatch: # This allows manual triggering of the workflow
+  workflow_dispatch:
   schedule:
-    - cron: "1 0 * * *"  # This runs the workflow every day at midnight (UTC)
+    - cron: "1 0 * * *"
 
 jobs:
   run_python_script:
@@ -16,22 +16,22 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'  # You can specify a different Python version if needed
+        python-version: '3.9'
 
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y xvfb
+        sudo apt-get install -y xvfb google-chrome-stable
         python -m pip install --upgrade pip
         pip install pandas selenium google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
     - name: Start xvfb (Virtual Display)
       run: |
         nohup Xvfb :99 & export DISPLAY=:99
-        sleep 4  # Give it a few seconds to start Xvfb
+        sleep 3  # Give it a few seconds to start Xvfb
 
     - name: Run Python Script
       env:
-        GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }} # Your Google Sheets credentials
+        GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
       run: |
         python VRBO_Reviews.py
