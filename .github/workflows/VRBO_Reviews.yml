@@ -1,12 +1,9 @@
 name: VRBO REVIEWS
 
-
 on:
   workflow_dispatch: # This allows manual triggering of the workflow
-
   schedule:
-  - cron: "1 0 * * *"  # This runs the workflow every day at midnight (UTC)
-
+    - cron: "1 0 * * *"  # This runs the workflow every day at midnight (UTC)
 
 jobs:
   run_python_script:
@@ -19,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9' # You can specify a different Python version if needed
+        python-version: '3.9'  # You can specify a different Python version if needed
 
     - name: Install Dependencies
       run: |
@@ -27,6 +24,11 @@ jobs:
         sudo apt-get install -y xvfb
         python -m pip install --upgrade pip
         pip install pandas selenium google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+
+    - name: Start xvfb (Virtual Display)
+      run: |
+        nohup Xvfb :99 & export DISPLAY=:99
+        sleep 4  # Give it a few seconds to start Xvfb
 
     - name: Run Python Script
       env:
