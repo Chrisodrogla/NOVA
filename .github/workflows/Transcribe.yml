@@ -1,0 +1,26 @@
+name: Transcribe Audio
+
+on:
+  workflow_dispatch:
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install git+https://github.com/openai/whisper.git
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg  # Required for audio processing
+
+    - name: Run Transcription
+      run: python Transcribe.py
